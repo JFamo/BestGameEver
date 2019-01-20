@@ -41,6 +41,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+		private Transform forceLookObj;
 
 		public bool canLookAround;
 
@@ -133,6 +134,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
             UpdateCameraPosition(speed);
 
             m_MouseLook.UpdateCursorLock();
+
+			if (forceLookObj != null) {
+				Quaternion targetRotation = Quaternion.LookRotation (forceLookObj.transform.position - transform.position);
+				if(Quaternion.Angle(targetRotation, transform.rotation) < 0.1f){
+					forceLookObj = null;
+					canLookAround = true;
+				}else{
+					transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5.0f * Time.deltaTime);
+				}
+			}
         }
 
 
@@ -259,5 +270,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
         }
+
+		public void ForceLookAt(Transform lookobj){
+			canLookAround = false;
+			forceLookObj = lookobj;
+		}
     }
 }

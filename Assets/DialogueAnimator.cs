@@ -10,10 +10,10 @@ public class DialogueAnimator : MonoBehaviour {
 
 	public void Disappear(){
 		this.GetComponent<Animator> ().Play ("FadeOut");
-		StartCoroutine (StartGame(0.15f));
+		StartCoroutine (DoHide(0.15f));
 	}
 
-	IEnumerator StartGame(float delay){
+	IEnumerator DoHide(float delay){
 		yield return new WaitForSeconds (delay);
 		gameObject.SetActive (false);
 	}
