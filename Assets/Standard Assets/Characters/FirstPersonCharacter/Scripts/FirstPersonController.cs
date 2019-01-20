@@ -138,6 +138,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			if (forceLookObj != null) {
 				Quaternion targetRotation = Quaternion.LookRotation (forceLookObj.transform.position - transform.position);
 				if(Quaternion.Angle(targetRotation, transform.rotation) < 0.1f){
+					ReInitMouseLook ();
 					forceLookObj = null;
 					canLookAround = true;
 				}else{
@@ -253,6 +254,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				m_MouseLook.LookRotation (transform, m_Camera.transform);
 			}
         }
+
+		public void ReInitMouseLook(){
+			m_MouseLook.Init (transform, m_Camera.transform);
+		}
 
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
