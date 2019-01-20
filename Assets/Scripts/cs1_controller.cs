@@ -5,21 +5,30 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class cs1_controller : MonoBehaviour {
 
-	private bool hasGun;
+	//references
 	public GameObject danny;
 	public AudioClip[] audioclips;
 	public GameObject player;
+	public GameObject starterCamera;
+	public GameObject playerCamera;
+	public GameObject timeGun;
+	public GameObject playerGun;
+
+	//dialogues
 	public GameObject titleBackground;
 	public GameObject mouseMoveDialogue;
 	public GameObject playerMoveDialogue;
 	public GameObject gunPickupDialogue;
-	public GameObject starterCamera;
-	public GameObject playerCamera;
-	public GameObject timeGun;
 
 	private FirstPersonController characterControllerScript;
+
+	//progress tracking bools
+	private bool hasGun;
 	private bool hasStartedDannyIntroCoroutine;
 	private bool hasStartedPickupCoroutine;
+
+	//actual vars
+	private float pickupDistance;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +43,8 @@ public class cs1_controller : MonoBehaviour {
 
 		hasStartedDannyIntroCoroutine = false;
 		hasStartedPickupCoroutine = false;
+
+		pickupDistance = 3.0f;
 	}
 	
 	// Update is called once per frame
@@ -52,9 +63,25 @@ public class cs1_controller : MonoBehaviour {
 		}
 		//check for close to gun
 		if(playerMoveDialogue.activeInHierarchy && !hasStartedPickupCoroutine){
-			if (Vector3.Distance(player.transform.position, timeGun.transform.position) < 1.0f) {
+			if (Vector3.Distance(player.transform.position, timeGun.transform.position) < pickupDistance) {
 				StartCoroutine (PickupTutorial (0.5f));
 				hasStartedPickupCoroutine = true;
+			}
+		}
+		//Manage gun pickup dialogue appearing and disappearing with distance
+		if(timeGun.activeInHierarchy && hasStartedPickupCoroutine && Vector3.Distance(player.transform.position, timeGun.transform.position) < pickupDistance && !gunPickupDialogue.activeInHierarchy){
+			gunPickupDialogue.SetActive (true);
+		}
+		else if(timeGun.activeInHierarchy && hasStartedPickupCoroutine && Vector3.Distance(player.transform.position, timeGun.transform.position) > pickupDistance && gunPickupDialogue.activeInHierarchy){
+			gunPickupDialogue.GetComponent<DialogueAnimator> ().Disappear ();
+		}
+		//check for gun pickup
+		if (Input.GetKeyDown (KeyCode.E)) {
+			if(timeGun.activeInHierarchy && hasStartedPickupCoroutine && Vector3.Distance(player.transform.position, timeGun.transform.position) < pickupDistance && gunPickupDialogue.activeInHierarchy){
+				hasGun = true;
+				timeGun.SetActive (false);
+				playerGun.SetActive (true);
+				StartCoroutine (SuckTutorial (0.5f));
 			}
 		}
 	}
@@ -64,9 +91,11 @@ public class cs1_controller : MonoBehaviour {
 		StartCoroutine (StartGame (0.15f));
 	}
 
+	//from the time the title fades to the time the player is able to move the camera
 	IEnumerator StartGame(float delay){
 		yield return new WaitForSeconds (delay);
 		player.SetActive (true);
+		playerGun.SetActive (false);
 		titleBackground.SetActive (false);
 		starterCamera.SetActive (false);
 		yield return new WaitForSeconds (1.0f);
@@ -76,6 +105,7 @@ public class cs1_controller : MonoBehaviour {
 		characterControllerScript.canLookAround = true;
 	}
 
+	//from the time the player looks at danny to the time they are able to move around
 	IEnumerator DannyIntro(float delay){
 		yield return new WaitForSeconds (delay);
 		mouseMoveDialogue.GetComponent<DialogueAnimator> ().Disappear ();
@@ -87,11 +117,21 @@ public class cs1_controller : MonoBehaviour {
 		playerMoveDialogue.SetActive (true);
 	}
 
+	//from the time the player approaches to gun until they pick it up
 	IEnumerator PickupTutorial(float delay){
 		playerMoveDialogue.GetComponent<DialogueAnimator> ().Disappear ();
 		yield return new WaitForSeconds (delay);
 		gunPickupDialogue.SetActive (true);
 	}
-
+	//from the time the player picks up the gun until computer succ
+	IEnumerator SuckTutorial(float delay){
+		gunPickupDialogue.GetComponent<DialogueAnimator> ().Disappear ();
+		yield return new WaitForSeconds (delay);
+		characterControllerScript.ForceLookAt (danny.transform);
+		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[1]);
+		yield return new WaitForSeconds (10.467f);
+		characterControllerScript.canLookAround = true;
+		characterControllerScript.canWalk = true;
+	}
 		
 }

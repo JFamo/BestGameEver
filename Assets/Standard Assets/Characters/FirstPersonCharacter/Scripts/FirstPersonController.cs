@@ -284,6 +284,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		public void ForceLookAt(Transform lookobj){
 			canLookAround = false;
+			canWalk = false;
 			forceLookObj = lookobj;
 		}
     }
