@@ -1,21 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class cs1_controller : MonoBehaviour {
 
 	private bool hasGun;
+	public GameObject danny;
+	public AudioClip[] audioclips;
 	public GameObject player;
-	public GameObject canvas;
+	public GameObject titleBackground;
+	public GameObject mouseMoveDialogue;
 	public GameObject starterCamera;
 	public GameObject playerCamera;
+
+	private FirstPersonController characterControllerScript;
 
 	// Use this for initialization
 	void Start () {
 		hasGun = false;
 		player.SetActive (false);
-		canvas.SetActive (true);
+		titleBackground.SetActive (true);
+		mouseMoveDialogue.SetActive (false);
 		starterCamera.SetActive (true);
+		characterControllerScript = player.GetComponent<FirstPersonController> ();
 	}
 	
 	// Update is called once per frame
@@ -34,8 +42,13 @@ public class cs1_controller : MonoBehaviour {
 	IEnumerator StartGame(float delay){
 		yield return new WaitForSeconds (delay);
 		player.SetActive (true);
-		canvas.SetActive (false);
+		titleBackground.SetActive (false);
 		starterCamera.SetActive (false);
+		yield return new WaitForSeconds (1.0f);
+		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[0]);
+		yield return new WaitForSeconds (2.406f);
+		mouseMoveDialogue.SetActive (true);
+		characterControllerScript.canLookAround = true;
 	}
 		
 }
