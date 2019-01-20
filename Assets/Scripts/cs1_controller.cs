@@ -20,16 +20,19 @@ public class cs1_controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.E)){
+		//For testing, remove in build
+		if(Input.GetKeyDown(KeyCode.Q)){
 			Debug.Log ("Campos" + playerCamera.transform.position.x + " y : " + playerCamera.transform.position.y + " z : " + playerCamera.transform.position.z);
 		}
 	}
 
-	public void BeginFade(){
-
+	public void BeginFade(Animator canvasAnimator){
+		canvasAnimator.Play ("Fade");
+		StartCoroutine (StartGame (0.15f));
 	}
 
-	public void StartGame(){
+	IEnumerator StartGame(float delay){
+		yield return new WaitForSeconds (delay);
 		player.SetActive (true);
 		canvas.SetActive (false);
 		starterCamera.SetActive (false);
