@@ -44,6 +44,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		private Transform forceLookObj;
 
 		public bool canLookAround;
+		public bool canWalk;
 
         // Use this for initialization
         private void Start()
@@ -98,7 +99,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void FixedUpdate()
         {
             float speed;
-            GetInput(out speed);
+			GetInput (out speed);
+
             // always move along the camera forward as it is the direction that it being aimed at
             Vector3 desiredMove = transform.forward*m_Input.y + transform.right*m_Input.x;
 
@@ -140,7 +142,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				if(Quaternion.Angle(targetRotation, transform.rotation) < 0.1f){
 					ReInitMouseLook ();
 					forceLookObj = null;
-					canLookAround = true;
 				}else{
 					transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5.0f * Time.deltaTime);
 				}
@@ -220,6 +221,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // Read input
             float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
             float vertical = CrossPlatformInputManager.GetAxis("Vertical");
+
+			if (!canWalk) {
+				horizontal = 0.0f;
+				vertical = 0.0f;
+			}
 
             bool waswalking = m_IsWalking;
 
