@@ -36,4 +36,8 @@ public class GunController : MonoBehaviour {
 		myLaserLineRenderer.SetPosition(0 , targetPos);
 		myLaserLineRenderer.SetPosition(1 , endPos);
 	}
+
+	public float getRange(){
+		return range;
+	}
 }
