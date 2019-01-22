@@ -4,23 +4,36 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		int layerMask = 1 << 8;
-		layerMask = ~layerMask;
+	public LineRenderer myLaserLineRenderer;
+	public float laserWidth = 0.1f;
+	public float range = 5.0f;
 
-		RaycastHit hit;
-		if (Physics.Raycast (transform.position, transform.TransformDirection (Vector3.forward), out hit, Mathf.Infinity, layerMask)) {
-			Debug.DrawRay (transform.position, transform.TransformDirection (Vector3.forward) * hit.distance, Color.yellow);
-			Debug.Log ("Did Hit");
+	void Start () {
+		Vector3[] initLaserPositions = new Vector3[ 2 ] { Vector3.zero, Vector3.zero };
+		myLaserLineRenderer.SetPositions (initLaserPositions);
+		myLaserLineRenderer.startWidth = laserWidth;
+		myLaserLineRenderer.endWidth = laserWidth;
+	}
+
+	void Update () {
+		if (Input.GetButton ("Fire1")) {
+			ShootLaser (transform.position, transform.TransformDirection (Vector3.forward), range);
+			myLaserLineRenderer.enabled = true;
 		} else {
-			Debug.DrawRay (transform.position, transform.TransformDirection (Vector3.forward) * 1000, Color.white);
-			Debug.Log ("Did Not Hit");
+			myLaserLineRenderer.enabled = false;
 		}
+	}
+
+	void ShootLaser(Vector3 targetPos, Vector3 direction, float length){
+		Ray ray = new Ray (targetPos, direction);
+		RaycastHit hit;
+		Vector3 endPos = targetPos + (length * direction);
+
+		if(Physics.Raycast(ray, out hit, length)){
+			endPos = hit.point;
+		}
+
+		myLaserLineRenderer.SetPosition(0 , targetPos);
+		myLaserLineRenderer.SetPosition(1 , endPos);
 	}
 }

@@ -41,6 +41,9 @@ public class cs1_controller : MonoBehaviour {
 		starterCamera.SetActive (true);
 		characterControllerScript = player.GetComponent<FirstPersonController> ();
 
+		characterControllerScript.canLookAround = false;
+		characterControllerScript.canWalk = false;
+
 		hasStartedDannyIntroCoroutine = false;
 		hasStartedPickupCoroutine = false;
 
