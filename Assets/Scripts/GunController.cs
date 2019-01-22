@@ -5,17 +5,17 @@ using UnityEngine;
 public class GunController : MonoBehaviour {
 
 	public LineRenderer myLaserLineRenderer;
-	public float laserWidth = 0.1f;
-	public float range = 5.0f;
+	private float laserWidth = 0.5f;
+	private float range = 7.5f;
 
 	void Start () {
 		Vector3[] initLaserPositions = new Vector3[ 2 ] { Vector3.zero, Vector3.zero };
 		myLaserLineRenderer.SetPositions (initLaserPositions);
-		myLaserLineRenderer.startWidth = laserWidth;
+		myLaserLineRenderer.startWidth = laserWidth/20;
 		myLaserLineRenderer.endWidth = laserWidth;
 	}
 
-	void Update () {
+	void LateUpdate () {
 		if (Input.GetButton ("Fire1")) {
 			ShootLaser (transform.position, transform.TransformDirection (Vector3.forward), range);
 			myLaserLineRenderer.enabled = true;
