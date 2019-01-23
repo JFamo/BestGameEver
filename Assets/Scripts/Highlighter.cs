@@ -30,7 +30,6 @@ public class Highlighter : MonoBehaviour {
 	void Update () {
 		Ray ray = new Ray (transform.position, transform.TransformDirection (Vector3.forward));
 		RaycastHit hit;
-		Debug.DrawRay (transform.position, transform.TransformDirection (Vector3.forward));
 		if (Physics.Raycast (ray, out hit, length)) {
 			hitRenderer = hit.transform.GetComponentInChildren<Renderer>();
 			if (hitRenderer) {
