@@ -6,11 +6,13 @@ public class Highlighter : MonoBehaviour {
 
 	private float length;
 	private GameObject hitObj;
+	private List<GameObject> hitObjects;
 
 	public Material timeObjHighlighted;
 
 	void Start () {
 		length = gameObject.GetComponentInChildren<GunController> ().getRange ();
+		hitObjects = new List<GameObject> ();
 	}
 
 	void Update () {
@@ -22,12 +24,25 @@ public class Highlighter : MonoBehaviour {
 			hitObj = hit.collider.gameObject;
 		}
 
-		if (hitObj.GetComponentInChildren<TimeObject> () != null) {
-			Renderer[] hitRenderers = hitObj.GetComponentsInChildren<Renderer> ();
-			Material[] originalMaterials = new Material[hitRenderers.Length];
-			for(int i = 0; i < hitRenderers.Length; i ++){
-				originalMaterials = hitRenderers [i].material;
-				hitRenderers[i].material = timeObjHighlighted;
+		if (hitObj != null) {
+			if (hitObj.GetComponentInChildren<TimeObject> () != null && !hitObjects.Contains (hitObj)) {
+				hitObjects.Add (hitObj);
+				Renderer[] hitRenderers = hitObj.GetComponentsInChildren<Renderer> ();
+				for (int i = 0; i < hitRenderers.Length; i++) {
+					hitRenderers [i].material = timeObjHighlighted;
+				}
+			}
+		}
+
+		if(hitObjects.Count > 1){
+			foreach (GameObject gmobj in hitObjects) {
+				if(gmobj != hitObj){
+					Renderer[] objRenderers = gmobj.GetComponentsInChildren<Renderer> ();
+					for(int i = 0; i < objRenderers.Length; i ++){
+						objRenderers[i].material = gmobj.GetComponent<TimeObject>().originalMaterials[i];
+					}
+					hitObjects.Remove (gmobj);
+				}
 			}
 		}
 	}

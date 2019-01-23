@@ -7,13 +7,14 @@ public class TimeObject : MonoBehaviour {
 	public string name;
 	public int timeOfOrigin;
 
-	// Use this for initialization
+	public Material[] originalMaterials;
+
 	void Start () {
-		
+		Renderer[] hitRenderers = gameObject.GetComponentsInChildren<Renderer> ();
+		originalMaterials = new Material[hitRenderers.Length];
+		for(int i = 0; i < hitRenderers.Length; i ++){
+			originalMaterials[i] = hitRenderers [i].material;
+		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }
