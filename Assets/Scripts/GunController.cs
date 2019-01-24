@@ -4,47 +4,46 @@ using UnityEngine;
 
 public class GunController : MonoBehaviour {
 
-	public LineRenderer myLaserLineRenderer;
+	private GameObject currentTarget;
 	private ParticleSystem myParticleSystem;
-	private float laserWidth = 0.5f;
+	private Highlighter myHighlighter;
 	private float range = 7.5f;
+	private bool brokenTarget;
+
+	//My Inventory
+	private List<TimeObject> myInventory;
 
 	void Start () {
-		Vector3[] initLaserPositions = new Vector3[ 2 ] { Vector3.zero, Vector3.zero };
-		myLaserLineRenderer.SetPositions (initLaserPositions);
-		myLaserLineRenderer.startWidth = laserWidth/20;
-		myLaserLineRenderer.endWidth = laserWidth;
+		currentTarget = null;
+		brokenTarget = true;
+		myInventory = new List<TimeObject>();
 		myParticleSystem = GetComponentInChildren<ParticleSystem> ();
+		myHighlighter = GetComponentInParent<Highlighter> ();
 	}
 
 	void LateUpdate () {
 		if (Input.GetButton ("Fire1")) {
-			//ShootLaser (transform.position, transform.TransformDirection (Vector3.forward), range);
-			//myLaserLineRenderer.enabled = true;
-			myParticleSystem.Play();
+			myParticleSystem.gameObject.SetActive(true);	//Activate vacuum effect
+			if (myHighlighter.getChangedObject () != null) {	//If we have a highlighted timeobject
+				currentTarget = myHighlighter.getChangedObject ();
+				StartCoroutine (AbsorbObject (currentTarget.GetComponent<TimeObject>().length));	//begin absorb with delay of TimeObject length
+			}
 		} else {
-			//myLaserLineRenderer.enabled = false;
-			myParticleSystem.Pause();
+			myParticleSystem.gameObject.SetActive(false);	//Deactivate vacuum effect
+			currentTarget = null;
+			brokenTarget = true;
 		}
 	}
-
-	/** Function for if we were using a line renderer as the vacuum projection
-	void ShootLaser(Vector3 targetPos, Vector3 direction, float length){
-		Ray ray = new Ray (targetPos, direction);
-		RaycastHit hit;
-		Vector3 endPos = targetPos + (length * direction);
-
-		if(Physics.Raycast(ray, out hit, length)){
-			endPos = hit.point;
-		}
-
-		myLaserLineRenderer.SetPosition(0 , targetPos);
-		myLaserLineRenderer.SetPosition(1 , endPos);
-	}
-	**/
-
 
 	public float getRange(){
 		return range;
+	}
+
+	//function to remove an item from the scene and add it to inventory
+	IEnumerator AbsorbObject(float delay){
+		yield return new WaitForSeconds (delay);
+		if(currentTarget != null){	//If we are still targeting
+
+		}
 	}
 }

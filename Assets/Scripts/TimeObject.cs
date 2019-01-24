@@ -6,6 +6,7 @@ public class TimeObject : MonoBehaviour {
 
 	public string name;
 	public int timeOfOrigin;
+	public float length;
 
 	void Start () {
 		

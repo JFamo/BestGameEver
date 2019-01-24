@@ -58,4 +58,8 @@ public class Highlighter : MonoBehaviour {
 		changedObject.renderer.material = changedObject.originalMaterial;
 		changedObject = null;
 	}
+
+	public GameObject getChangedObject(){
+		return changedObject.renderer.gameObject;
+	}
 }
