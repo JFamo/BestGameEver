@@ -59,10 +59,15 @@ public class Highlighter : MonoBehaviour {
 		changedObject = null;
 	}
 
+	public void DestroyChangedObject(){
+		changedObject = null;
+	}
+
 	public GameObject getChangedObject(){
-		if (changedObject.renderer.gameObject != null) {
-			return changedObject.renderer.gameObject;
+		if (changedObject.renderer.gameObject.transform.root.gameObject) {
+			return changedObject.renderer.gameObject.transform.root.gameObject;
 		}
 		return null;
 	}
+		
 }

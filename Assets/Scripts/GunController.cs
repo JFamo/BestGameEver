@@ -26,7 +26,7 @@ public class GunController : MonoBehaviour {
 			}
 			if (myHighlighter.getChangedObject () != null && myHighlighter.getChangedObject () != currentTarget) {	//If we have a highlighted timeobject
 				currentTarget = myHighlighter.getChangedObject ();
-				StartCoroutine (AbsorbObject (currentTarget.GetComponentInParent<TimeObject>().length));	//begin absorb with delay of TimeObject length
+				StartCoroutine (AbsorbObject (currentTarget.GetComponent<TimeObject>().length));	//begin absorb with delay of TimeObject length
 			}
 		} else {
 			myParticleSystem.gameObject.SetActive(false);	//Deactivate vacuum effect
@@ -43,7 +43,9 @@ public class GunController : MonoBehaviour {
 	IEnumerator AbsorbObject(float delay){
 		yield return new WaitForSeconds (delay);
 		if(currentTarget != null){	//Ensure we are still targeting
-			Debug.Log(currentTarget.gameObject.name + " Got succed");
+			myInventory.Add(currentTarget.GetComponent<TimeObject>());
+			myHighlighter.DestroyChangedObject ();
+			Destroy (currentTarget);
 		}
 	}
 }
