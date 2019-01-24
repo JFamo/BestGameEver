@@ -36,6 +36,8 @@ public class GunController : MonoBehaviour {
 			}
 		} else {
 			myParticleSystem.gameObject.SetActive(false);	//Deactivate vacuum effect
+			if(currentTarget != null)
+			SetObjectAlpha(currentTarget, 1.0f);
 			currentTarget = null;
 			absorbTime = -1f;
 			coroutineCounter++;
@@ -43,7 +45,8 @@ public class GunController : MonoBehaviour {
 
 		//Check timeobject fade
 		if (absorbTime > 0) {
-			SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) / currentTarget.GetComponent<TimeObject>().length));
+			if(currentTarget != null) 
+				SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) / currentTarget.GetComponent<TimeObject>().length));
 		}
 	}
 
@@ -66,6 +69,11 @@ public class GunController : MonoBehaviour {
 		Renderer[] rs = go.GetComponentsInChildren<MeshRenderer> ();
 		foreach (Renderer r in rs) {
 			foreach (Material mat in r.materials) {
+				if (alpha == 1) {
+					StandardShaderUtils.ChangeRenderMode (mat, StandardShaderUtils.BlendMode.Opaque);
+				} else {
+					StandardShaderUtils.ChangeRenderMode (mat, StandardShaderUtils.BlendMode.Transparent);
+				}
 				Color myColor = mat.color;
 				myColor.a = alpha;
 				mat.color = myColor;

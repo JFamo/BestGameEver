@@ -16,7 +16,7 @@ public class Highlighter : MonoBehaviour {
 		public ChangedObject (Renderer renderer, Material material) {
 			this.renderer = renderer;
 			originalMaterial = renderer.sharedMaterial;
-			//renderer.material = material;
+			renderer.material = material;
 		}
 
 	}
