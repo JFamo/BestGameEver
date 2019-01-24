@@ -69,5 +69,12 @@ public class Highlighter : MonoBehaviour {
 		}
 		return null;
 	}
+
+	public Renderer getChangedRenderer(){
+		if (changedObject.renderer) {
+			return changedObject.renderer;
+		}
+		return null;
+	}
 		
 }

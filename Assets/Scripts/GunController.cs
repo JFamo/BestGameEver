@@ -8,6 +8,8 @@ public class GunController : MonoBehaviour {
 	private ParticleSystem myParticleSystem;
 	private Highlighter myHighlighter;
 	private float range = 7.5f;
+	private float absorbTime;
+	private int coroutineCounter; //Hack to stop coroutine with args
 
 	//My Inventory
 	private List<TimeObject> myInventory;
@@ -17,21 +19,33 @@ public class GunController : MonoBehaviour {
 		myInventory = new List<TimeObject>();
 		myParticleSystem = GetComponentInChildren<ParticleSystem> ();
 		myHighlighter = GetComponentInParent<Highlighter> ();
+		absorbTime = -1f;
 	}
 
 	void LateUpdate () {
+		//Check absorbtion
 		if (Input.GetButton ("Fire1")) {
 			if (!myParticleSystem.gameObject.activeSelf) {	
 				myParticleSystem.gameObject.SetActive(true);	//Activate vacuum effect
 			}
 			if (myHighlighter.getChangedObject () != null && myHighlighter.getChangedObject () != currentTarget) {	//If we have a highlighted timeobject
 				currentTarget = myHighlighter.getChangedObject ();
-				StartCoroutine (AbsorbObject (currentTarget.GetComponent<TimeObject>().length));	//begin absorb with delay of TimeObject length
+				coroutineCounter++;
+				absorbTime = Time.time;
+				StartCoroutine (AbsorbObject (currentTarget.GetComponent<TimeObject>().length, coroutineCounter));	//begin absorb with delay of TimeObject length
 			}
 		} else {
 			myParticleSystem.gameObject.SetActive(false);	//Deactivate vacuum effect
 			currentTarget = null;
-			StopCoroutine ("AbsorbObject");	//stop absorbtion
+			absorbTime = -1f;
+			coroutineCounter++;
+		}
+
+		//Check timeobject fade
+		if (absorbTime > 0) {
+			Color myColor = myHighlighter.getChangedRenderer ().material.color;
+			myColor.a =  1 - ((Time.time - absorbTime) / currentTarget.GetComponent<TimeObject>().length);
+			myHighlighter.getChangedRenderer ().material.color = myColor;
 		}
 	}
 
@@ -40,10 +54,11 @@ public class GunController : MonoBehaviour {
 	}
 
 	//function to remove an item from the scene and add it to inventory
-	IEnumerator AbsorbObject(float delay){
+	IEnumerator AbsorbObject(float delay, int myNumber){
 		yield return new WaitForSeconds (delay);
-		if(currentTarget != null){	//Ensure we are still targeting
+		if(currentTarget != null && coroutineCounter == myNumber){	//Ensure we are still targeting
 			myInventory.Add(currentTarget.GetComponent<TimeObject>());
+			absorbTime = -1f;
 			myHighlighter.DestroyChangedObject ();
 			Destroy (currentTarget);
 		}
