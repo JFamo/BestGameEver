@@ -43,9 +43,7 @@ public class GunController : MonoBehaviour {
 
 		//Check timeobject fade
 		if (absorbTime > 0) {
-			Color myColor = myHighlighter.getChangedRenderer ().material.color;
-			myColor.a =  1 - ((Time.time - absorbTime) / currentTarget.GetComponent<TimeObject>().length);
-			myHighlighter.getChangedRenderer ().material.color = myColor;
+			SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) / currentTarget.GetComponent<TimeObject>().length));
 		}
 	}
 
@@ -61,6 +59,18 @@ public class GunController : MonoBehaviour {
 			absorbTime = -1f;
 			myHighlighter.DestroyChangedObject ();
 			Destroy (currentTarget);
+		}
+	}
+
+	public void SetObjectAlpha(GameObject go, float alpha){
+		Renderer[] rs = go.GetComponentsInChildren<MeshRenderer> ();
+		foreach (Renderer r in rs) {
+			foreach (Material mat in r.materials) {
+				Color myColor = mat.color;
+				myColor.a = alpha;
+				mat.color = myColor;
+			}
+
 		}
 	}
 }
