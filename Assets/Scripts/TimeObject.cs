@@ -9,7 +9,9 @@ public class TimeObject : MonoBehaviour {
 	public float length;
 
 	void Start () {
-		
+		if (length <= 0) {
+			length = 2.0f;
+		}
 	}
 
 }

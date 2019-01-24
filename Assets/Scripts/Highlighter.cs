@@ -60,6 +60,9 @@ public class Highlighter : MonoBehaviour {
 	}
 
 	public GameObject getChangedObject(){
-		return changedObject.renderer.gameObject;
+		if (changedObject.renderer.gameObject != null) {
+			return changedObject.renderer.gameObject;
+		}
+		return null;
 	}
 }
