@@ -90,7 +90,7 @@ public class Highlighter : MonoBehaviour {
 	}
 
 	public GameObject getChangedObject(){
-		if (changedObject.myself != null) {
+		if (changedObject != null) {
 			return changedObject.myself;
 		}
 		return null;
