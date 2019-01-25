@@ -14,7 +14,7 @@ public class GunController : MonoBehaviour {
 	private float absorbTime; //Raw time at which current absorbtion action began, used for opacity
 	private float prevScroll; //Previous frame mousewheel scroll
 	private int coroutineCounter; //Hack to stop coroutine with args
-	private InventoryItem selectedObject; //Item currently selected from inventory
+	private TimeObject selectedObject; //Item currently selected from inventory
 
 	//Sounds
 	public AudioClip succComplete;
@@ -23,25 +23,13 @@ public class GunController : MonoBehaviour {
 	//GUI
 	public Transform inventoryInterface;
 
-	//Define class for inventory items
-	public class InventoryItem{
-		public string myName;
-		public int timeOfOrigin;
-		public float length;
-
-		public InventoryItem(TimeObject t){
-			this.myName = t.myName;
-			this.timeOfOrigin = t.timeOfOrigin;
-		}
-	}
-
 	//My Inventory
-	private List<InventoryItem> myInventory;
+	private List<TimeObject> myInventory;
 
 	void Start () {
 		currentTarget = null;
 		selectedObject = null;
-		myInventory = new List<InventoryItem>();
+		myInventory = new List<TimeObject>();
 		myAudioSource = GetComponent<AudioSource> ();
 		myParticleSystem = GetComponentInChildren<ParticleSystem> ();
 		myHighlighter = GetComponentInParent<Highlighter> ();
@@ -107,10 +95,10 @@ public class GunController : MonoBehaviour {
 	IEnumerator AbsorbObject(float delay, int myNumber){
 		yield return new WaitForSeconds (delay);
 		if(currentTarget != null && coroutineCounter == myNumber){	//Ensure we are still targeting
-			myInventory.Add(new InventoryItem(currentTarget.GetComponent<TimeObject>()));
+			myInventory.Add(currentTarget.GetComponent<TimeObject>());
 			absorbTime = -1f;
 			myHighlighter.DestroyChangedObject ();
-			Destroy (currentTarget);
+			currentTarget.SetActive (false);
 			myAudioSource.clip = succComplete;
 			myAudioSource.volume = 1.0f;
 			myAudioSource.Play ();
@@ -141,7 +129,7 @@ public class GunController : MonoBehaviour {
 
 	public void GenerateInventoryUI(){
 		GameObject sampleText = inventoryInterface.Find ("SampleText").gameObject;
-		sampleText.GetComponent<Text> ().enabled = true;
+		sampleText.gameObject.SetActive (true);
 		GameObject thisText;
 		for (int i = 0; i < myInventory.Count; i++) {
 			thisText = GameObject.Instantiate (sampleText);
@@ -150,6 +138,6 @@ public class GunController : MonoBehaviour {
 			thisText.transform.localPosition = new Vector3 (sampleText.GetComponent<RectTransform>().localPosition.x, sampleText.GetComponent<RectTransform>().localPosition.y - (21.3f * i), sampleText.GetComponent<RectTransform>().localPosition.z);
 			thisText.GetComponentInChildren<Text> ().text = myInventory[i].myName + "\n" + myInventory[i].timeOfOrigin;
 		}
-		sampleText.GetComponent<Text> ().enabled = false;
+		sampleText.gameObject.SetActive (false);
 	}
 }
