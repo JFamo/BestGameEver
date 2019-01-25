@@ -14,7 +14,7 @@ public class GunController : MonoBehaviour {
 	private float absorbTime; //Raw time at which current absorbtion action began, used for opacity
 	private float prevScroll; //Previous frame mousewheel scroll
 	private int coroutineCounter; //Hack to stop coroutine with args
-	private TimeObject selectedObject; //Item currently selected from inventory
+	private int selectedIndex; //Item currently selected from inventory
 
 	//Sounds
 	public AudioClip succComplete;
@@ -22,13 +22,14 @@ public class GunController : MonoBehaviour {
 
 	//GUI
 	public Transform inventoryInterface;
+	float latestInvLoad;
 
 	//My Inventory
 	private List<TimeObject> myInventory;
 
 	void Start () {
 		currentTarget = null;
-		selectedObject = null;
+		selectedIndex = 0;
 		myInventory = new List<TimeObject>();
 		myAudioSource = GetComponent<AudioSource> ();
 		myParticleSystem = GetComponentInChildren<ParticleSystem> ();
@@ -43,6 +44,20 @@ public class GunController : MonoBehaviour {
 		//Get inventory scrolling
 		if (Input.GetAxis ("Mouse ScrollWheel") != prevScroll) {
 			prevScroll = Input.GetAxis ("Mouse ScrollWheel");
+
+			//check change of index
+			if(prevScroll > 0){
+				if (selectedIndex > 0) {
+					selectedIndex--;
+				}
+			}
+			else if(prevScroll < 0){
+				if (selectedIndex < myInventory.Count - 1) {
+					selectedIndex++;
+				}
+			}
+
+			//make new UI 
 			GenerateInventoryUI ();
 			inventoryInterface.gameObject.SetActive (true);
 			StartCoroutine (DelayHideInventory (3.0f));
@@ -124,10 +139,13 @@ public class GunController : MonoBehaviour {
 
 	IEnumerator DelayHideInventory(float delay){
 		yield return new WaitForSeconds (delay);
-		inventoryInterface.gameObject.SetActive (false);
+		if (latestInvLoad + delay <= Time.time + 0.5f ){
+			inventoryInterface.gameObject.SetActive (false);
+		}
 	}
 
 	public void GenerateInventoryUI(){
+		latestInvLoad = Time.time;
 		GameObject sampleText = inventoryInterface.Find ("SampleText").gameObject;
 		sampleText.gameObject.SetActive (true);
 		GameObject thisText;
@@ -137,6 +155,11 @@ public class GunController : MonoBehaviour {
 			thisText.transform.localScale = sampleText.GetComponent<RectTransform>().localScale;
 			thisText.transform.localPosition = new Vector3 (sampleText.GetComponent<RectTransform>().localPosition.x, sampleText.GetComponent<RectTransform>().localPosition.y - (21.3f * i), sampleText.GetComponent<RectTransform>().localPosition.z);
 			thisText.GetComponentInChildren<Text> ().text = myInventory[i].myName + "\n" + myInventory[i].timeOfOrigin;
+			if (i == selectedIndex) {
+				thisText.GetComponentInChildren<Text> ().color = Color.blue;
+			} else {
+				thisText.GetComponentInChildren<Text> ().color = Color.black;
+			}
 		}
 		sampleText.gameObject.SetActive (false);
 	}
