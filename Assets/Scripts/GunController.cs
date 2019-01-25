@@ -9,7 +9,12 @@ public class GunController : MonoBehaviour {
 	private Highlighter myHighlighter;
 	private float range = 7.5f;
 	private float absorbTime;
+	private AudioSource myAudioSource;
 	private int coroutineCounter; //Hack to stop coroutine with args
+
+	//Sounds
+	public AudioClip succComplete;
+	public AudioClip succRay;
 
 	//My Inventory
 	private List<TimeObject> myInventory;
@@ -17,6 +22,7 @@ public class GunController : MonoBehaviour {
 	void Start () {
 		currentTarget = null;
 		myInventory = new List<TimeObject>();
+		myAudioSource = GetComponent<AudioSource> ();
 		myParticleSystem = GetComponentInChildren<ParticleSystem> ();
 		myHighlighter = GetComponentInParent<Highlighter> ();
 		absorbTime = -1f;
@@ -28,6 +34,11 @@ public class GunController : MonoBehaviour {
 			if (!myParticleSystem.gameObject.activeSelf) {	
 				myParticleSystem.gameObject.SetActive(true);	//Activate vacuum effect
 			}
+			if (!myAudioSource.isPlaying || !myAudioSource.clip == succRay) {
+				myAudioSource.clip = succRay;	//Succ ray sound effect
+				myAudioSource.volume = 0.6f;
+				myAudioSource.Play ();
+			}
 			if (myHighlighter.getChangedObject () != null && myHighlighter.getChangedObject () != currentTarget) {	//If we have a highlighted timeobject
 				currentTarget = myHighlighter.getChangedObject ();
 				coroutineCounter++;
@@ -36,17 +47,21 @@ public class GunController : MonoBehaviour {
 			}
 		} else {
 			myParticleSystem.gameObject.SetActive(false);	//Deactivate vacuum effect
-			if(currentTarget != null)
-			SetObjectAlpha(currentTarget, 1.0f);
-			currentTarget = null;
-			absorbTime = -1f;
-			coroutineCounter++;
+			if (myAudioSource.isPlaying && myAudioSource.clip == succRay) {
+				myAudioSource.Stop ();	//Stop sound effect
+			}
+			if (currentTarget != null) {
+				SetObjectAlpha (currentTarget, 0.6f);
+				currentTarget = null;
+				absorbTime = -1f;
+				coroutineCounter++;
+			}
 		}
 
 		//Check timeobject fade
 		if (absorbTime > 0) {
 			if(currentTarget != null) 
-				SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) / currentTarget.GetComponent<TimeObject>().length));
+				SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) * 0.6f / currentTarget.GetComponent<TimeObject>().length));
 		}
 	}
 
@@ -62,6 +77,9 @@ public class GunController : MonoBehaviour {
 			absorbTime = -1f;
 			myHighlighter.DestroyChangedObject ();
 			Destroy (currentTarget);
+			myAudioSource.clip = succComplete;
+			myAudioSource.volume = 1.0f;
+			myAudioSource.Play ();
 		}
 	}
 
