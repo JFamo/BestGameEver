@@ -21,6 +21,12 @@ public class Highlighter : MonoBehaviour {
 			}
 		}
 
+		public void ResetObject(){
+			foreach (ChangedRenderer cr in renderers) {
+				cr.ResetMaterials ();
+			}
+		}
+
 	}
 
 	class ChangedRenderer {
@@ -29,12 +35,15 @@ public class Highlighter : MonoBehaviour {
 
 		public ChangedRenderer(Renderer renderer, Material newMaterial){
 			originalMaterials = new List<Material>();
-			Debug.Log("Making changed renderer " + renderer.gameObject.name);
 			this.renderer = renderer;
 			foreach(Material mat in renderer.materials){
 				originalMaterials.Add(mat);
 			}
 			renderer.material = newMaterial;
+		}
+
+		public void ResetMaterials(){
+			renderer.materials = originalMaterials.ToArray ();
 		}
 	}
 
@@ -72,7 +81,7 @@ public class Highlighter : MonoBehaviour {
 	}
 
 	public void RevertChangedObject(){
-		//changedObject.renderer.material = changedObject.originalMaterial;
+		changedObject.ResetObject ();
 		changedObject = null;
 	}
 
