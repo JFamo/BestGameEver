@@ -5,20 +5,37 @@ using UnityEngine;
 public class Highlighter : MonoBehaviour {
 
 	private float length;
-	private Renderer hitRenderer;
+	private GameObject hitObject;
 
 	public Material timeObjHighlighted;
 
 	class ChangedObject {
-		public Renderer renderer;
-		public Material originalMaterial;
+		public GameObject myself;
+		public List<ChangedRenderer> renderers;
 
-		public ChangedObject (Renderer renderer, Material material) {
-			this.renderer = renderer;
-			originalMaterial = renderer.sharedMaterial;
-			renderer.material = material;
+		public ChangedObject (GameObject thisobj, Material material) {
+			renderers = new List<ChangedRenderer>();
+			this.myself = thisobj;
+			foreach(Renderer renderer in thisobj.GetComponentsInChildren<Renderer>()){
+				renderers.Add(new ChangedRenderer(renderer, material));
+			}
 		}
 
+	}
+
+	class ChangedRenderer {
+		public List<Material> originalMaterials;
+		public Renderer renderer;
+
+		public ChangedRenderer(Renderer renderer, Material newMaterial){
+			originalMaterials = new List<Material>();
+			Debug.Log("Making changed renderer " + renderer.gameObject.name);
+			this.renderer = renderer;
+			foreach(Material mat in renderer.materials){
+				originalMaterials.Add(mat);
+			}
+			renderer.material = newMaterial;
+		}
 	}
 
 	ChangedObject changedObject;
@@ -31,16 +48,16 @@ public class Highlighter : MonoBehaviour {
 		Ray ray = new Ray (transform.position, transform.TransformDirection (Vector3.forward));
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit, length)) {
-			hitRenderer = hit.transform.GetComponentInChildren<Renderer>();
-			if (hitRenderer) {
-				if (hitRenderer.GetComponentInParent<TimeObject> () != null) {
+			hitObject = hit.transform.root.gameObject;
+			if (hitObject) {
+				if (hitObject.GetComponent<TimeObject> () != null) {
 					if (changedObject != null)
-					if (changedObject.renderer == hitRenderer) {
+					if (changedObject.myself == hitObject) {
 						return;
 					} else {
-						changedObject.renderer.material = changedObject.originalMaterial;
+						RevertChangedObject ();
 					}
-					changedObject = new ChangedObject (hitRenderer, timeObjHighlighted);
+					changedObject = new ChangedObject (hitObject, timeObjHighlighted);
 				} else {
 					if (changedObject != null) {
 						RevertChangedObject ();
@@ -55,7 +72,7 @@ public class Highlighter : MonoBehaviour {
 	}
 
 	public void RevertChangedObject(){
-		changedObject.renderer.material = changedObject.originalMaterial;
+		//changedObject.renderer.material = changedObject.originalMaterial;
 		changedObject = null;
 	}
 
@@ -64,15 +81,8 @@ public class Highlighter : MonoBehaviour {
 	}
 
 	public GameObject getChangedObject(){
-		if (changedObject.renderer.gameObject.transform.root.gameObject) {
-			return changedObject.renderer.gameObject.transform.root.gameObject;
-		}
-		return null;
-	}
-
-	public Renderer getChangedRenderer(){
-		if (changedObject.renderer) {
-			return changedObject.renderer;
+		if (changedObject.myself != null) {
+			return changedObject.myself;
 		}
 		return null;
 	}
