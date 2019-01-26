@@ -15,6 +15,7 @@ public class GunController : MonoBehaviour {
 	private float prevScroll; //Previous frame mousewheel scroll
 	private int coroutineCounter; //Hack to stop coroutine with args
 	private int selectedIndex; //Item currently selected from inventory
+	private float spawnDist = 10.0f; //Range at which I spawn items in my forward direction
 
 	//Sounds
 	public AudioClip succComplete;
@@ -99,6 +100,11 @@ public class GunController : MonoBehaviour {
 			if(currentTarget != null) 
 				SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) * 0.6f / currentTarget.GetComponent<TimeObject>().length));
 		}
+
+		//Check Object Placement
+		if (Input.GetButtonDown ("Fire2")) {
+			PlaceCurrentObject ();
+		}
 			
 	}
 
@@ -162,5 +168,16 @@ public class GunController : MonoBehaviour {
 			}
 		}
 		sampleText.gameObject.SetActive (false);
+	}
+
+	public void PlaceCurrentObject(){
+		GameObject placementObj = myInventory [selectedIndex].gameObject;	//assume timeObject is on root transform gameobject
+		Vector3 spawnPos = myHighlighter.gameObject.transform.position + (spawnDist * myHighlighter.gameObject.transform.forward);
+		spawnPos.y += 1.0f;
+		placementObj.transform.position = spawnPos;
+		Quaternion spawnRot = myHighlighter.gameObject.transform.rotation;
+		placementObj.transform.rotation = spawnRot;
+		placementObj.SetActive (true);
+		myInventory.RemoveAt (selectedIndex);
 	}
 }
