@@ -92,9 +92,9 @@ public class Highlighter : MonoBehaviour {
 		this.gameObject.GetComponentInChildren<GunController> ().ClearCurrentTarget ();
 	}
 
-	public void DestroyChangedObject(){
+	public void AbsorbChangedObject(){
+		changedObject.ResetObject ();
 		changedObject = null;
-		this.gameObject.GetComponentInChildren<GunController> ().ClearCurrentTarget ();
 	}
 
 	public GameObject getChangedObject(){

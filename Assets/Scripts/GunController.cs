@@ -117,6 +117,7 @@ public class GunController : MonoBehaviour {
 	IEnumerator AbsorbObject(float delay, int myNumber){
 		yield return new WaitForSeconds (delay);
 		if(currentTarget != null && coroutineCounter == myNumber){	//Ensure we are still targeting
+			myHighlighter.AbsorbChangedObject ();
 			myInventory.Add(currentTarget.GetComponent<TimeObject>());
 			absorbTime = -1f;
 			currentTarget.SetActive (false);
@@ -124,7 +125,6 @@ public class GunController : MonoBehaviour {
 			myAudioSource.clip = succComplete;
 			myAudioSource.volume = 1.0f;
 			myAudioSource.Play ();
-			myHighlighter.DestroyChangedObject ();
 		}
 	}
 
