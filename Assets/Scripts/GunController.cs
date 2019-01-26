@@ -15,7 +15,7 @@ public class GunController : MonoBehaviour {
 	private float prevScroll; //Previous frame mousewheel scroll
 	private int coroutineCounter; //Hack to stop coroutine with args
 	private int selectedIndex; //Item currently selected from inventory
-	private float spawnDist = 10.0f; //Range at which I spawn items in my forward direction
+	private float spawnDist = 5.0f; //Range at which I spawn items in my forward direction
 
 	//Sounds
 	public AudioClip succComplete;
@@ -23,7 +23,9 @@ public class GunController : MonoBehaviour {
 
 	//GUI
 	public Transform inventoryInterface;
+	public Transform emptyInvMessage;
 	float latestInvLoad;
+	float latestEmptyInvMessageLoad;
 
 	//My Inventory
 	private List<TimeObject> myInventory;
@@ -37,8 +39,6 @@ public class GunController : MonoBehaviour {
 		myHighlighter = GetComponentInParent<Highlighter> ();
 		absorbTime = -1f;
 		prevScroll = 0.0f;
-
-		GenerateInventoryUI ();
 	}
 
 	void Update () {
@@ -150,11 +150,33 @@ public class GunController : MonoBehaviour {
 		}
 	}
 
+	IEnumerator DelayHideMessage(float delay){
+		yield return new WaitForSeconds (delay);
+		if (latestEmptyInvMessageLoad + delay <= Time.time + 0.5f ){
+			emptyInvMessage.gameObject.SetActive (false);
+		}
+	}
+
 	public void GenerateInventoryUI(){
+		//Grab Prefabs
 		latestInvLoad = Time.time;
 		GameObject sampleText = inventoryInterface.Find ("SampleText").gameObject;
 		sampleText.gameObject.SetActive (true);
 		GameObject thisText;
+
+		//Clear Item Texts
+		inventoryInterface.gameObject.SetActive (true);
+		foreach (GameObject g in GameObject.FindGameObjectsWithTag("InventoryText")) {
+			Debug.Log (g.name);
+			if (g.name == "SampleText") {
+				break;
+			} else {
+				Destroy (g);
+			}
+		}
+		inventoryInterface.gameObject.SetActive (false);
+
+		//Create New Inventory Text Items
 		for (int i = 0; i < myInventory.Count; i++) {
 			thisText = GameObject.Instantiate (sampleText);
 			thisText.transform.SetParent (sampleText.transform.parent);
@@ -166,18 +188,32 @@ public class GunController : MonoBehaviour {
 			} else {
 				thisText.GetComponentInChildren<Text> ().color = Color.black;
 			}
+			thisText.name = "itemText";
 		}
+
 		sampleText.gameObject.SetActive (false);
 	}
 
 	public void PlaceCurrentObject(){
-		GameObject placementObj = myInventory [selectedIndex].gameObject;	//assume timeObject is on root transform gameobject
-		Vector3 spawnPos = myHighlighter.gameObject.transform.position + (spawnDist * myHighlighter.gameObject.transform.forward);
-		spawnPos.y += 1.0f;
-		placementObj.transform.position = spawnPos;
-		Quaternion spawnRot = myHighlighter.gameObject.transform.rotation;
-		placementObj.transform.rotation = spawnRot;
-		placementObj.SetActive (true);
-		myInventory.RemoveAt (selectedIndex);
+		if (myInventory.Count > 0) {
+			GameObject placementObj = myInventory [selectedIndex].gameObject;	//assume timeObject is on root transform gameobject
+			Vector3 spawnPos = myHighlighter.gameObject.transform.position + (spawnDist * myHighlighter.gameObject.transform.forward);
+			if (spawnPos.y < 1.0f) {
+				spawnPos.y = 1.0f;
+			} else {
+				spawnPos.y += 1.0f;
+			}
+			placementObj.transform.position = spawnPos;
+			Quaternion spawnRot = myHighlighter.gameObject.transform.rotation;
+			placementObj.transform.rotation = spawnRot;
+			placementObj.SetActive (true);
+			myInventory.RemoveAt (selectedIndex);
+			selectedIndex = 0;
+			GenerateInventoryUI ();
+		} else {
+			latestEmptyInvMessageLoad = Time.time;
+			emptyInvMessage.gameObject.SetActive (true);
+			StartCoroutine (DelayHideMessage (1.0f));
+		}
 	}
 }
