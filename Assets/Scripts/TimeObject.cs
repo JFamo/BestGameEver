@@ -5,7 +5,7 @@ using UnityEngine;
 public class TimeObject : MonoBehaviour {
 
 	public string myName;
-	public int timeOfOrigin;
+	public string timeOfOrigin;
 	public float length;
 
 	void Start () {

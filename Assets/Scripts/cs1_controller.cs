@@ -58,6 +58,11 @@ public class cs1_controller : MonoBehaviour {
 		hasStartedSuccCoroutine = false;
 
 		pickupDistance = 3.0f;
+
+		//Add Dinosaur to Inventory
+		TimeObject dinosaurTO = GameObject.Find("Dinosaur").GetComponent<TimeObject>();
+		playerGun.GetComponent<GunController>().AddToInventory(dinosaurTO);
+		GameObject.Find ("Dinosaur").SetActive (false);
 	}
 	
 	// Update is called once per frame

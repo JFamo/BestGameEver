@@ -222,4 +222,8 @@ public class GunController : MonoBehaviour {
 	public void ClearCurrentTarget(){
 		currentTarget = null;
 	}
+
+	public void AddToInventory(TimeObject t){
+		myInventory.Add (t);
+	}
 }
