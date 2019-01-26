@@ -37,12 +37,18 @@ public class Highlighter : MonoBehaviour {
 			originalMaterials = new List<Material>();
 			this.renderer = renderer;
 			foreach(Material mat in renderer.materials){
+				Color makeOpaqueColor = mat.color;
+				makeOpaqueColor.a = 1.0f;
+				mat.color = makeOpaqueColor;
 				originalMaterials.Add(mat);
 			}
 			renderer.material = newMaterial;
 		}
 
 		public void ResetMaterials(){
+			foreach (Material mat in originalMaterials) {
+				StandardShaderUtils.ChangeRenderMode (mat, StandardShaderUtils.BlendMode.Opaque);
+			}
 			renderer.materials = originalMaterials.ToArray ();
 		}
 	}
