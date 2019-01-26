@@ -8,6 +8,7 @@ public class Highlighter : MonoBehaviour {
 	private GameObject hitObject;
 
 	public Material timeObjHighlighted;
+	public Material enemyHighlighted;
 
 	class ChangedObject {
 		public GameObject myself;
@@ -77,6 +78,14 @@ public class Highlighter : MonoBehaviour {
 						RevertChangedObject ();
 					}
 					changedObject = new ChangedObject (hitObject, timeObjHighlighted);
+				} else if (hitObject.GetComponent<Enemy> () != null) { 
+					if (changedObject != null)
+					if (changedObject.myself == hitObject) {
+						return;
+					} else {
+						RevertChangedObject ();
+					}
+					changedObject = new ChangedObject (hitObject, enemyHighlighted);
 				} else {
 					if (changedObject != null) {
 						RevertChangedObject ();
