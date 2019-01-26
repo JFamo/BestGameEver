@@ -10,7 +10,6 @@ public class cs1_controller : MonoBehaviour {
 	public AudioClip[] audioclips;
 	public GameObject player;
 	public GameObject starterCamera;
-	public GameObject playerCamera;
 	public GameObject timeGun;
 	public GameObject playerGun;
 
@@ -52,10 +51,6 @@ public class cs1_controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//For testing, remove in build
-		if(Input.GetKeyDown(KeyCode.Q)){
-			Debug.Log ("Campos" + playerCamera.transform.position.x + " y : " + playerCamera.transform.position.y + " z : " + playerCamera.transform.position.z);
-		}
 
 		//check for viewing danny
 		if(mouseMoveDialogue.activeInHierarchy && !hasStartedDannyIntroCoroutine){

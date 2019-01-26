@@ -56,7 +56,11 @@ public class Highlighter : MonoBehaviour {
 	ChangedObject changedObject;
 
 	void Start () {
-		length = gameObject.GetComponentInChildren<GunController> ().getRange ();
+		if(GameObject.Find("TutorialController") != null){
+			length = 5.0f;
+		}else{
+			length = gameObject.GetComponentInChildren<GunController> ().getRange ();
+		}
 	}
 
 	void Update () {
@@ -72,16 +76,20 @@ public class Highlighter : MonoBehaviour {
 					} else {
 						RevertChangedObject ();
 					}
+					Debug.Log ("Making changed obj");
 					changedObject = new ChangedObject (hitObject, timeObjHighlighted);
 				} else {
+					Debug.Log ("Failed to find time obj");
 					if (changedObject != null) {
 						RevertChangedObject ();
 					}
 				}
 			} else if (changedObject != null) {
+				Debug.Log ("Failed Intermediate");
 				RevertChangedObject ();
 			}
 		} else if (changedObject != null) {
+			Debug.Log ("Failed raycast!");
 			RevertChangedObject ();
 		}
 	}
