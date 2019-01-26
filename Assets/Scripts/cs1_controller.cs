@@ -30,7 +30,7 @@ public class cs1_controller : MonoBehaviour {
 	private bool hasGun;
 	private bool hasStartedDannyIntroCoroutine;
 	private bool hasStartedPickupCoroutine;
-	private bool hasStartedSuccCoroutine;
+	private bool hasStartedAttackCoroutine;
 
 	//actual vars
 	private float pickupDistance;
@@ -58,7 +58,7 @@ public class cs1_controller : MonoBehaviour {
 
 		hasStartedDannyIntroCoroutine = false;
 		hasStartedPickupCoroutine = false;
-		hasStartedSuccCoroutine = false;
+		hasStartedAttackCoroutine = false;
 
 		pickupDistance = 3.0f;
 
@@ -108,6 +108,11 @@ public class cs1_controller : MonoBehaviour {
 		//check for dinosaur placement
 		if (GameObject.Find("Dinosaur") != null && rmbDialogue.activeInHierarchy) {
 			StartCoroutine (AttackTutorial(0.5f));
+		}
+		//check for dinosaur attack
+		if (GameObject.Find("Dinosaur") == null && hasStartedAttackCoroutine) {
+			//END TUTORIAL
+			Debug.Log("TUTORIAL OVER!");
 		}
 	}
 
@@ -193,6 +198,7 @@ public class cs1_controller : MonoBehaviour {
 		characterControllerScript.ForceLookAt (danny.transform);
 		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[6]);
 		yield return new WaitForSeconds (5.093f);
+		hasStartedAttackCoroutine = true;
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
 	}
