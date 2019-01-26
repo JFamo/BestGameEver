@@ -33,12 +33,27 @@ public class GunController : MonoBehaviour {
 	void Start () {
 		currentTarget = null;
 		selectedIndex = 0;
-		myInventory = new List<TimeObject>();
+		if (myInventory == null) {
+			myInventory = new List<TimeObject>();
+		}
 		myAudioSource = GetComponent<AudioSource> ();
 		myParticleSystem = GetComponentInChildren<ParticleSystem> ();
 		myHighlighter = GetComponentInParent<Highlighter> ();
 		absorbTime = -1f;
 		prevScroll = 0.0f;
+	}
+
+	public void GrabDinosaur(){
+		//Get Dinosaur in Tutorial
+		Debug.Log("Trying tut");
+		if (myInventory == null) {
+			myInventory = new List<TimeObject>();
+		}
+		if(GameObject.Find("TutorialController") != null){
+			myInventory.Add (GameObject.Find("Dinosaur").GetComponent<TimeObject>());
+			Debug.Log("Found dino : " + GameObject.Find("Dinosaur").name);
+			GameObject.Find("Dinosaur").SetActive (false);
+		}
 	}
 
 	void Update () {
@@ -221,9 +236,5 @@ public class GunController : MonoBehaviour {
 
 	public void ClearCurrentTarget(){
 		currentTarget = null;
-	}
-
-	public void AddToInventory(TimeObject t){
-		myInventory.Add (t);
 	}
 }

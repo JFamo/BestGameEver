@@ -37,7 +37,10 @@ public class cs1_controller : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		//Set defaults
 		hasGun = false;
+		playerGun.GetComponent<GunController> ().GrabDinosaur ();
 		player.SetActive (false);
 		titleBackground.SetActive (true);
 		mouseMoveDialogue.SetActive (false);
@@ -59,10 +62,6 @@ public class cs1_controller : MonoBehaviour {
 
 		pickupDistance = 3.0f;
 
-		//Add Dinosaur to Inventory
-		TimeObject dinosaurTO = GameObject.Find("Dinosaur").GetComponent<TimeObject>();
-		playerGun.GetComponent<GunController>().AddToInventory(dinosaurTO);
-		GameObject.Find ("Dinosaur").SetActive (false);
 	}
 	
 	// Update is called once per frame
@@ -105,6 +104,10 @@ public class cs1_controller : MonoBehaviour {
 		//check for inventory opening
 		if (scrollDialogue.activeInHierarchy && inventoryInterface.activeInHierarchy) {
 			StartCoroutine (DinosaurTutorial(0.5f));
+		}
+		//check for dinosaur placement
+		if (GameObject.Find("Dinosaur") != null && rmbDialogue.activeInHierarchy) {
+			StartCoroutine (AttackTutorial(0.5f));
 		}
 	}
 
