@@ -22,6 +22,7 @@ public class cs1_controller : MonoBehaviour {
 	public GameObject lmbDialogue;
 	public GameObject rmbDialogue;
 	public GameObject scrollDialogue;
+	public GameObject inventoryInterface;
 
 	private FirstPersonController characterControllerScript;
 
@@ -42,6 +43,9 @@ public class cs1_controller : MonoBehaviour {
 		mouseMoveDialogue.SetActive (false);
 		playerMoveDialogue.SetActive (false);
 		gunPickupDialogue.SetActive (false);
+		lmbDialogue.SetActive (false);
+		rmbDialogue.SetActive (false);
+		scrollDialogue.SetActive (false);
 		starterCamera.SetActive (true);
 		characterControllerScript = player.GetComponent<FirstPersonController> ();
 		clawbot = GameObject.Find ("Clawbot");
@@ -89,6 +93,14 @@ public class cs1_controller : MonoBehaviour {
 				StartCoroutine (SuckTutorial (0.5f));
 			}
 		}
+		//check for clawbot pickup
+		if (lmbDialogue.activeInHierarchy && !clawbot.activeInHierarchy) {
+			StartCoroutine (PlaceTutorial (0.5f));
+		}
+		//check for inventory opening
+		if (scrollDialogue.activeInHierarchy && inventoryInterface.activeInHierarchy) {
+			StartCoroutine (DinosaurTutorial(0.5f));
+		}
 	}
 
 	public void BeginFade(Animator canvasAnimator){
@@ -129,7 +141,7 @@ public class cs1_controller : MonoBehaviour {
 		gunPickupDialogue.SetActive (true);
 	}
 
-	//from the time the player picks up the gun until computer succ
+	//from the time the player picks up the gun until clawbot succ
 	IEnumerator SuckTutorial(float delay){
 		gunPickupDialogue.GetComponent<DialogueAnimator> ().Disappear ();
 		yield return new WaitForSeconds (delay);
@@ -141,6 +153,40 @@ public class cs1_controller : MonoBehaviour {
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
 		lmbDialogue.SetActive (true);
+	}
+
+	//from the time the player picks up the clawbot until they select the dinosaur
+	IEnumerator PlaceTutorial(float delay){
+		lmbDialogue.GetComponent<DialogueAnimator> ().Disappear ();
+		yield return new WaitForSeconds (delay);
+		characterControllerScript.ForceLookAt (danny.transform);
+		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[3]);
+		yield return new WaitForSeconds (7.367f);
+		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[4]);
+		yield return new WaitForSeconds (9.474f);
+		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[5]);
+		yield return new WaitForSeconds (15.504f);
+		characterControllerScript.canLookAround = true;
+		characterControllerScript.canWalk = true;
+		scrollDialogue.SetActive (true);
+	}
+
+	//from the time the player opens their inventory until they place the dinosaur
+	IEnumerator DinosaurTutorial(float delay){
+		scrollDialogue.GetComponent<DialogueAnimator> ().Disappear ();
+		yield return new WaitForSeconds (delay);
+		rmbDialogue.SetActive (true);
+	}
+
+	//from the time the player places the dinosaur to the time they succ it up
+	IEnumerator AttackTutorial(float delay){
+		rmbDialogue.GetComponent<DialogueAnimator> ().Disappear ();
+		yield return new WaitForSeconds (delay);
+		characterControllerScript.ForceLookAt (danny.transform);
+		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[6]);
+		yield return new WaitForSeconds (5.093f);
+		characterControllerScript.canLookAround = true;
+		characterControllerScript.canWalk = true;
 	}
 		
 }
