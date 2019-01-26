@@ -97,8 +97,9 @@ public class GunController : MonoBehaviour {
 
 		//Check timeobject fade
 		if (absorbTime > 0) {
-			if(currentTarget != null) 
-				SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) * 0.6f / currentTarget.GetComponent<TimeObject>().length));
+			if (currentTarget != null) {
+				SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) * 0.6f / currentTarget.GetComponent<TimeObject> ().length));
+			}
 		}
 
 		//Check Object Placement
@@ -118,11 +119,12 @@ public class GunController : MonoBehaviour {
 		if(currentTarget != null && coroutineCounter == myNumber){	//Ensure we are still targeting
 			myInventory.Add(currentTarget.GetComponent<TimeObject>());
 			absorbTime = -1f;
-			myHighlighter.DestroyChangedObject ();
 			currentTarget.SetActive (false);
+			currentTarget = null;
 			myAudioSource.clip = succComplete;
 			myAudioSource.volume = 1.0f;
 			myAudioSource.Play ();
+			myHighlighter.DestroyChangedObject ();
 		}
 	}
 
@@ -215,5 +217,9 @@ public class GunController : MonoBehaviour {
 			emptyInvMessage.gameObject.SetActive (true);
 			StartCoroutine (DelayHideMessage (1.0f));
 		}
+	}
+
+	public void ClearCurrentTarget(){
+		currentTarget = null;
 	}
 }
