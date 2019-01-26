@@ -7,6 +7,7 @@ public class cs1_controller : MonoBehaviour {
 
 	//references
 	public GameObject danny;
+	private GameObject clawbot;
 	public AudioClip[] audioclips;
 	public GameObject player;
 	public GameObject starterCamera;
@@ -18,6 +19,9 @@ public class cs1_controller : MonoBehaviour {
 	public GameObject mouseMoveDialogue;
 	public GameObject playerMoveDialogue;
 	public GameObject gunPickupDialogue;
+	public GameObject lmbDialogue;
+	public GameObject rmbDialogue;
+	public GameObject scrollDialogue;
 
 	private FirstPersonController characterControllerScript;
 
@@ -25,6 +29,7 @@ public class cs1_controller : MonoBehaviour {
 	private bool hasGun;
 	private bool hasStartedDannyIntroCoroutine;
 	private bool hasStartedPickupCoroutine;
+	private bool hasStartedSuccCoroutine;
 
 	//actual vars
 	private float pickupDistance;
@@ -39,12 +44,14 @@ public class cs1_controller : MonoBehaviour {
 		gunPickupDialogue.SetActive (false);
 		starterCamera.SetActive (true);
 		characterControllerScript = player.GetComponent<FirstPersonController> ();
+		clawbot = GameObject.Find ("Clawbot");
 
 		characterControllerScript.canLookAround = false;
 		characterControllerScript.canWalk = false;
 
 		hasStartedDannyIntroCoroutine = false;
 		hasStartedPickupCoroutine = false;
+		hasStartedSuccCoroutine = false;
 
 		pickupDistance = 3.0f;
 	}
@@ -121,15 +128,19 @@ public class cs1_controller : MonoBehaviour {
 		yield return new WaitForSeconds (delay);
 		gunPickupDialogue.SetActive (true);
 	}
+
 	//from the time the player picks up the gun until computer succ
 	IEnumerator SuckTutorial(float delay){
 		gunPickupDialogue.GetComponent<DialogueAnimator> ().Disappear ();
 		yield return new WaitForSeconds (delay);
 		characterControllerScript.ForceLookAt (danny.transform);
-		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[1]);
-		yield return new WaitForSeconds (10.467f);
+		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[2]);
+		yield return new WaitForSeconds (5.500f);
+		characterControllerScript.ForceLookAt (clawbot.transform);
+		yield return new WaitForSeconds (2.789f);
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
+		lmbDialogue.SetActive (true);
 	}
 		
 }
