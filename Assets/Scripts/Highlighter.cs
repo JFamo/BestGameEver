@@ -43,7 +43,11 @@ public class Highlighter : MonoBehaviour {
 				mat.color = makeOpaqueColor;
 				originalMaterials.Add(mat);
 			}
-			renderer.material = newMaterial;
+			Material[] newMaterials = new Material[renderer.materials.Length];
+			for(int i = 0; i < newMaterials.Length; i ++){
+				newMaterials[i] = newMaterial;
+			}
+			renderer.materials = newMaterials;
 		}
 
 		public void ResetMaterials(){
