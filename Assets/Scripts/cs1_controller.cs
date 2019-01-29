@@ -114,7 +114,7 @@ public class cs1_controller : MonoBehaviour {
 		if (GameObject.Find("Dinosaur") == null && hasStartedAttackCoroutine) {
 			//END TUTORIAL
 			characterControllerScript.ForceLookAt (danny.transform);
-			StartCoroutine (EndTutorial (1.0f));
+			SceneManager.LoadScene ("Greece", LoadSceneMode.Single);
 		}
 	}
 
@@ -203,11 +203,6 @@ public class cs1_controller : MonoBehaviour {
 		hasStartedAttackCoroutine = true;
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
-	}
-
-	IEnumerator EndTutorial(float delay){
-		yield return new WaitForSeconds (delay);
-		SceneManager.LoadScene ("Greece", LoadSceneMode.Additive);
 	}
 		
 }
