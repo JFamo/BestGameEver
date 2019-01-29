@@ -9,10 +9,12 @@ public class cs2_controller : MonoBehaviour {
 	private FirstPersonController characterControllerScript;
 	public GameObject greekIntroDialogue;
 	public GameObject sprintDialogue;
+	public GameObject jumpDialogue;
 	public GameObject eyeTop;
 	public GameObject eyeBottom;
 
 	private bool hasShownSprintMsg;
+	private bool hasShownJumpMsg;
 
 	void Start () {
 		characterControllerScript = player.GetComponent<FirstPersonController> ();
@@ -20,6 +22,7 @@ public class cs2_controller : MonoBehaviour {
 		characterControllerScript.canWalk = false;
 
 		hasShownSprintMsg = false;
+		hasShownJumpMsg = false;
 
 		StartCoroutine(StartGame (2.30f));
 	}
@@ -33,6 +36,16 @@ public class cs2_controller : MonoBehaviour {
 				sprintDialogue.SetActive (true);
 				hasShownSprintMsg = true;
 				StartCoroutine (HideMessage (sprintDialogue, 4.0f));
+			}
+		}
+		if (!hasShownJumpMsg) {
+			if (player.transform.position.x > 95) {
+				if(sprintDialogue.activeInHierarchy){
+					StartCoroutine (HideMessage (sprintDialogue, 0.1f));
+				}
+				jumpDialogue.SetActive (true);
+				hasShownJumpMsg = true;
+				StartCoroutine (HideMessage (jumpDialogue, 4.0f));
 			}
 		}
 	}
