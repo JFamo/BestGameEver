@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine.SceneManagement;
 
 public class cs1_controller : MonoBehaviour {
 
@@ -69,7 +70,7 @@ public class cs1_controller : MonoBehaviour {
 
 		//check for viewing danny
 		if(mouseMoveDialogue.activeInHierarchy && !hasStartedDannyIntroCoroutine){
-			if (danny.GetComponent<MeshRenderer> ().isVisible) {
+			if (danny.GetComponentInChildren<Renderer> ().isVisible) {
 				StartCoroutine (DannyIntro (2.0f));
 				hasStartedDannyIntroCoroutine = true;
 			}
@@ -112,7 +113,8 @@ public class cs1_controller : MonoBehaviour {
 		//check for dinosaur attack
 		if (GameObject.Find("Dinosaur") == null && hasStartedAttackCoroutine) {
 			//END TUTORIAL
-			Debug.Log("TUTORIAL OVER!");
+			characterControllerScript.ForceLookAt (danny.transform);
+			StartCoroutine (EndTutorial (1.0f));
 		}
 	}
 
@@ -201,6 +203,11 @@ public class cs1_controller : MonoBehaviour {
 		hasStartedAttackCoroutine = true;
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
+	}
+
+	IEnumerator EndTutorial(float delay){
+		yield return new WaitForSeconds (delay);
+		SceneManager.LoadScene ("Greece", LoadSceneMode.Additive);
 	}
 		
 }

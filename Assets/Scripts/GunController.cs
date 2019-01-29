@@ -45,13 +45,11 @@ public class GunController : MonoBehaviour {
 
 	public void GrabDinosaur(){
 		//Get Dinosaur in Tutorial
-		Debug.Log("Trying tut");
 		if (myInventory == null) {
 			myInventory = new List<TimeObject>();
 		}
 		if(GameObject.Find("TutorialController") != null){
 			myInventory.Add (GameObject.Find("Dinosaur").GetComponent<TimeObject>());
-			Debug.Log("Found dino : " + GameObject.Find("Dinosaur").name);
 			GameObject.Find("Dinosaur").SetActive (false);
 		}
 	}
@@ -184,7 +182,6 @@ public class GunController : MonoBehaviour {
 		//Clear Item Texts
 		inventoryInterface.gameObject.SetActive (true);
 		foreach (GameObject g in GameObject.FindGameObjectsWithTag("InventoryText")) {
-			Debug.Log (g.name);
 			if (g.name == "SampleText") {
 				break;
 			} else {
