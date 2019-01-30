@@ -9,14 +9,17 @@ public class Highlighter : MonoBehaviour {
 
 	public Material timeObjHighlighted;
 	public Material enemyHighlighted;
+	public Material energyHighlighted;
 
 	class ChangedObject {
 		public GameObject myself;
 		public List<ChangedRenderer> renderers;
+		public string type;
 
-		public ChangedObject (GameObject thisobj, Material material) {
+		public ChangedObject (GameObject thisobj, Material material, string type) {
 			renderers = new List<ChangedRenderer>();
 			this.myself = thisobj;
+			this.type = type;
 			foreach(Renderer renderer in thisobj.GetComponentsInChildren<Renderer>()){
 				renderers.Add(new ChangedRenderer(renderer, material));
 			}
@@ -81,7 +84,7 @@ public class Highlighter : MonoBehaviour {
 					} else {
 						RevertChangedObject ();
 					}
-					changedObject = new ChangedObject (hitObject, timeObjHighlighted);
+					changedObject = new ChangedObject (hitObject, timeObjHighlighted, "timeobject");
 				} else if (hitObject.GetComponent<Enemy> () != null) { 
 					if (changedObject != null)
 					if (changedObject.myself == hitObject) {
@@ -89,7 +92,15 @@ public class Highlighter : MonoBehaviour {
 					} else {
 						RevertChangedObject ();
 					}
-					changedObject = new ChangedObject (hitObject, enemyHighlighted);
+					changedObject = new ChangedObject (hitObject, enemyHighlighted, "enemy");
+				} else if (hitObject.GetComponent<EnergyObject> () != null) { 
+					if (changedObject != null)
+					if (changedObject.myself == hitObject) {
+						return;
+					} else {
+						RevertChangedObject ();
+					}
+					changedObject = new ChangedObject (hitObject, energyHighlighted, "energy");
 				} else {
 					if (changedObject != null) {
 						RevertChangedObject ();
@@ -112,6 +123,13 @@ public class Highlighter : MonoBehaviour {
 	public void AbsorbChangedObject(){
 		changedObject.ResetObject ();
 		changedObject = null;
+	}
+
+	public string getChangedType(){
+		if (changedObject != null) {
+			return changedObject.type;
+		}
+		return null;
 	}
 
 	public GameObject getChangedObject(){
