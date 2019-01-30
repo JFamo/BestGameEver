@@ -10,6 +10,7 @@ public class cs2_controller : MonoBehaviour {
 	public GameObject greekIntroDialogue;
 	public GameObject sprintDialogue;
 	public GameObject jumpDialogue;
+	public GameObject talkDialogue;
 	public GameObject eyeTop;
 	public GameObject eyeBottom;
 
