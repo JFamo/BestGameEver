@@ -92,8 +92,15 @@ public class GunController : MonoBehaviour {
 			if (myHighlighter.getChangedObject () != null && myHighlighter.getChangedObject () != currentTarget) {	//If we have a highlighted timeobject
 				currentTarget = myHighlighter.getChangedObject ();
 				coroutineCounter++;
-				absorbTime = Time.time;
-				StartCoroutine (AbsorbObject (currentTarget.GetComponent<TimeObject>().length, coroutineCounter));	//begin absorb with delay of TimeObject length
+
+				if(myHighlighter.getChangedType() == "timeobject"){
+					absorbTime = Time.time;
+					StartCoroutine (AbsorbObject (currentTarget.GetComponent<TimeObject>().length, coroutineCounter));	//begin absorb with delay of TimeObject length
+				}
+
+			}
+			else if(myHighlighter.getChangedObject () != null && myHighlighter.getChangedType() == "energy"){
+				gameObject.GetComponentInParent<PlayerHealth> ().Heal (0.05f);
 			}
 		} else {
 			myParticleSystem.gameObject.SetActive(false);	//Deactivate vacuum effect
