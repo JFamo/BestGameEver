@@ -17,17 +17,45 @@ public class ConversationManager : MonoBehaviour {
 	public GameObject tutorial;
 
 	private Conversation currentConversation;
+	private ConversationSet currentConversationSet;
+	public Animator myAnimator;
 
 	private int selectedOption;
 
 	void Start () {
+		if (panel.activeInHierarchy) {
+			panel.SetActive (false);
+		}
 		isShowing = false;
 	}
 
-	public void OpenConversation(Conversation convs){
+	void Update(){
+		//Check for choosing dialogue option
+		if (Input.GetKeyDown (KeyCode.Return)) {
+			if (currentConversationSet.GetNext (selectedOption) != null) {
+
+			} else {
+				CloseConversation ();
+			}
+		}
+	}
+
+	public void OpenConversation(ConversationSet cset){
+		//Adjust my variables
+		isShowing = true;
+		currentConversationSet = cset;
+
+		//Load First Conversation
+		LoadConversation(cset.GetFirst());
+
+		//Activate Panel
+		panel.SetActive(true);
+		myAnimator.Play ("OpenConvs");
+	}
+
+	public void LoadConversation(Conversation convs){
 		//Adjust my variables
 		this.currentConversation = convs;
-		isShowing = true;
 		selectedOption = 0;
 
 		//Set values
@@ -53,14 +81,17 @@ public class ConversationManager : MonoBehaviour {
 		}
 
 		//Reset selector
-		optionSelector.transform.position = new Vector3(optionSelector.transform.position.x, -267.2f, optionSelector.transform.position.z);
-
-		//Activate Panel
-		panel.SetActive(true);
+		optionSelector.GetComponent<RectTransform>().anchoredPosition = new Vector2(-113.95f, -267.2f);
 	}
 
 	public void CloseConversation(){
 		isShowing = false;
+		myAnimator.Play ("CloseConvs");
+		StartCoroutine (FinishClose (2.0f));
+	}
+
+	IEnumerator FinishClose(float delay){
+		yield return new WaitForSeconds (delay);
 		panel.SetActive(false);
 	}
 }

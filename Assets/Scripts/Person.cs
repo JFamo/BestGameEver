@@ -44,6 +44,12 @@ public class Person : MonoBehaviour {
 				CloseDialogue ();
 			}
 		}
+		//Check if dialogue was closed via enter
+		if (hasOpenDialogue) {
+			if (!GameObject.Find ("Controller").GetComponent<ConversationManager> ().isShowing) {
+				hasOpenDialogue = false;
+			}
+		}
 	}
 
 	private void OpenDialogue(){
@@ -51,7 +57,7 @@ public class Person : MonoBehaviour {
 		if (talkDialogue.activeInHierarchy) {
 			talkDialogue.GetComponent<DialogueAnimator> ().Disappear ();
 		}
-		Conversation c = GenerateConversation ();
+		ConversationSet c = GenerateConversation ();
 		GameObject.Find ("Controller").GetComponent<ConversationManager> ().OpenConversation(c);
 	}
 
@@ -63,12 +69,13 @@ public class Person : MonoBehaviour {
 		GameObject.Find ("Controller").GetComponent<ConversationManager> ().CloseConversation();
 	}
 
-	private Conversation GenerateConversation(){
+	private ConversationSet GenerateConversation(){
+		ConversationSet c;
+
 		if(myID == 1){
-			return new Conversation ("Danny Sanchez", 2, true, "Hey kid. I'm going to say the something.", "DANNY NO!", ". fuck .");
+			c.AddConversation( new Conversation("Danny Sanchez", 2, true, "Hey kid. I'm going to say the something.", "DANNY NO!", ". fuck ."));
 		}
 
-		//default case
-		return new Conversation ("ERROR", 1, true, "Found no conversations for this person.", "Okay");
+		return c;
 	}
 }
