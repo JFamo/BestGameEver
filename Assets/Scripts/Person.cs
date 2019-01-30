@@ -70,10 +70,11 @@ public class Person : MonoBehaviour {
 	}
 
 	private ConversationSet GenerateConversation(){
-		ConversationSet c;
+		ConversationSet c = new ConversationSet();
 
 		if(myID == 1){
-			c.AddConversation( new Conversation("Danny Sanchez", 2, true, "Hey kid. I'm going to say the something.", "DANNY NO!", ". fuck ."));
+			c.AddConversation( new Conversation("Danny Sanchez", 2, true, "Hey kid. I'm going to say the something.", "Where am I?", "DANNY DONT DO IT DONT SAY IT", 1, -1));
+			c.AddConversation( new Conversation("Danny Sanchez", 1, true, "You're in ancient greece.", "Neat-o", 0));
 		}
 
 		return c;

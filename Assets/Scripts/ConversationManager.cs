@@ -21,19 +21,43 @@ public class ConversationManager : MonoBehaviour {
 	public Animator myAnimator;
 
 	private int selectedOption;
+	private float prevScroll;
 
 	void Start () {
 		if (panel.activeInHierarchy) {
 			panel.SetActive (false);
 		}
 		isShowing = false;
+		prevScroll = 0.0f;
 	}
 
 	void Update(){
+		//Check for changing dialogue option
+		if (isShowing) {
+			if (Input.GetAxis ("Mouse ScrollWheel") != prevScroll) {
+				prevScroll = Input.GetAxis ("Mouse ScrollWheel");
+		
+				//check change of index
+				if (prevScroll > 0) {
+					if (selectedOption > 0) {
+						selectedOption--;
+					}
+				} else if (prevScroll < 0) {
+					if (selectedOption < currentConversation.numberOfOptions - 1) {
+						selectedOption++;
+					}
+				}
+
+				//update arrow
+				ChangeSelected();
+			}
+		}
+
 		//Check for choosing dialogue option
 		if (Input.GetKeyDown (KeyCode.Return)) {
-			if (currentConversationSet.GetNext (selectedOption) != null) {
-
+			Conversation newc = currentConversationSet.GetNext (selectedOption);
+			if (newc != null) {
+				LoadConversation (newc);
 			} else {
 				CloseConversation ();
 			}
@@ -88,6 +112,16 @@ public class ConversationManager : MonoBehaviour {
 		isShowing = false;
 		myAnimator.Play ("CloseConvs");
 		StartCoroutine (FinishClose (2.0f));
+	}
+
+	public void ChangeSelected(){
+		if (selectedOption == 0) {
+			optionSelector.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (-113.95f, -267.2f);
+		} else if (selectedOption == 1) {
+			optionSelector.GetComponent<RectTransform>().anchoredPosition = new Vector2(-113.95f, -307.2f);
+		} else if (selectedOption == 2) {
+			optionSelector.GetComponent<RectTransform>().anchoredPosition = new Vector2(-113.95f, -347.2f);
+		}
 	}
 
 	IEnumerator FinishClose(float delay){

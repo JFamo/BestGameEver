@@ -57,24 +57,27 @@ public class GunController : MonoBehaviour {
 	void Update () {
 		//Get inventory scrolling
 		if (Input.GetAxis ("Mouse ScrollWheel") != prevScroll) {
-			prevScroll = Input.GetAxis ("Mouse ScrollWheel");
+			if (GameObject.Find ("Controller") != null) {
+				if (!GameObject.Find ("Controller").GetComponent<ConversationManager> ().isShowing) {
+					prevScroll = Input.GetAxis ("Mouse ScrollWheel");
 
-			//check change of index
-			if(prevScroll > 0){
-				if (selectedIndex > 0) {
-					selectedIndex--;
+					//check change of index
+					if (prevScroll > 0) {
+						if (selectedIndex > 0) {
+							selectedIndex--;
+						}
+					} else if (prevScroll < 0) {
+						if (selectedIndex < myInventory.Count - 1) {
+							selectedIndex++;
+						}
+					}
+
+					//make new UI 
+					GenerateInventoryUI ();
+					inventoryInterface.gameObject.SetActive (true);
+					StartCoroutine (DelayHideInventory (3.0f));
 				}
 			}
-			else if(prevScroll < 0){
-				if (selectedIndex < myInventory.Count - 1) {
-					selectedIndex++;
-				}
-			}
-
-			//make new UI 
-			GenerateInventoryUI ();
-			inventoryInterface.gameObject.SetActive (true);
-			StartCoroutine (DelayHideInventory (3.0f));
 		}
 	}
 

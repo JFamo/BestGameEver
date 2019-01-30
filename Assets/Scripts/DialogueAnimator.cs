@@ -9,8 +9,10 @@ public class DialogueAnimator : MonoBehaviour {
 	}
 
 	public void Disappear(){
-		this.GetComponent<Animator> ().Play ("FadeOut");
-		StartCoroutine (DoHide(0.15f));
+		if (gameObject.activeInHierarchy) {
+			this.GetComponent<Animator> ().Play ("FadeOut");
+			StartCoroutine (DoHide (0.15f));
+		}
 	}
 
 	IEnumerator DoHide(float delay){
