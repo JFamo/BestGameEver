@@ -85,6 +85,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
+
+			if (transform.eulerAngles.z != 0 && canLookAround) {
+				transform.eulerAngles = new Vector3 (0.0f, transform.eulerAngles.y, 0.0f);
+			}
         }
 
 

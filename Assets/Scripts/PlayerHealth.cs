@@ -98,6 +98,11 @@ public class PlayerHealth : MonoBehaviour
 		healthSlider.value = currentHealth;
 	}
 
+	public void UseEnergy(float amount){
+		currentHealth -= amount;
+		healthSlider.value = currentHealth;
+	}
+
 
 	public void Death ()
 	{

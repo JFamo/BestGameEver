@@ -77,6 +77,25 @@ public class GunController : MonoBehaviour {
 					inventoryInterface.gameObject.SetActive (true);
 					StartCoroutine (DelayHideInventory (3.0f));
 				}
+			} else {
+
+				prevScroll = Input.GetAxis ("Mouse ScrollWheel");
+
+				//check change of index
+				if (prevScroll > 0) {
+					if (selectedIndex > 0) {
+						selectedIndex--;
+					}
+				} else if (prevScroll < 0) {
+					if (selectedIndex < myInventory.Count - 1) {
+						selectedIndex++;
+					}
+				}
+
+				//make new UI 
+				GenerateInventoryUI ();
+				inventoryInterface.gameObject.SetActive (true);
+				StartCoroutine (DelayHideInventory (3.0f));
 			}
 		}
 	}
@@ -84,39 +103,49 @@ public class GunController : MonoBehaviour {
 	void LateUpdate () {
 		//Check absorbtion
 		if (Input.GetButton ("Fire1")) {
-			if (!myParticleSystem.gameObject.activeSelf) {	
-				myParticleSystem.gameObject.SetActive(true);	//Activate vacuum effect
-			}
-			if (!myAudioSource.isPlaying || !myAudioSource.clip == succRay) {
-				myAudioSource.clip = succRay;	//Succ ray sound effect
-				myAudioSource.volume = 0.6f;
-				myAudioSource.Play ();
-			}
-			if (myHighlighter.getChangedObject () != null && myHighlighter.getChangedObject () != currentTarget) {	//If we have a highlighted timeobject
-				currentTarget = myHighlighter.getChangedObject ();
-				coroutineCounter++;
-
-				if(myHighlighter.getChangedType() == "timeobject"){
-					absorbTime = Time.time;
-					StartCoroutine (AbsorbObject (currentTarget.GetComponent<TimeObject>().length, coroutineCounter));	//begin absorb with delay of TimeObject length
+			bool canSucc = false;
+			if (GameObject.Find ("Controller") != null) {
+				if (gameObject.GetComponentInParent<PlayerHealth> ().currentHealth > 0.025f) {
+					canSucc = true;
+					gameObject.GetComponentInParent<PlayerHealth> ().UseEnergy (0.025f);
 				}
+			} else {
+				canSucc = true;
+			}
+			if (canSucc) {
+				if (!myParticleSystem.gameObject.activeSelf) {	
+					myParticleSystem.gameObject.SetActive (true);	//Activate vacuum effect
+				}
+				if (!myAudioSource.isPlaying || !myAudioSource.clip == succRay) {
+					myAudioSource.clip = succRay;	//Succ ray sound effect
+					myAudioSource.volume = 0.6f;
+					myAudioSource.Play ();
+				}
+				if (myHighlighter.getChangedObject () != null && myHighlighter.getChangedObject () != currentTarget) {	//If we have a highlighted timeobject
+					currentTarget = myHighlighter.getChangedObject ();
+					coroutineCounter++;
 
+					if (myHighlighter.getChangedType () == "timeobject") {
+						absorbTime = Time.time;
+						StartCoroutine (AbsorbObject (currentTarget.GetComponent<TimeObject> ().length, coroutineCounter));	//begin absorb with delay of TimeObject length
+					}
+
+				} else if (myHighlighter.getChangedObject () != null && myHighlighter.getChangedType () == "energy") {
+					gameObject.GetComponentInParent<PlayerHealth> ().Heal (0.05f);
+				}
 			}
-			else if(myHighlighter.getChangedObject () != null && myHighlighter.getChangedType() == "energy"){
-				gameObject.GetComponentInParent<PlayerHealth> ().Heal (0.05f);
+			} else {
+				myParticleSystem.gameObject.SetActive (false);	//Deactivate vacuum effect
+				if (myAudioSource.isPlaying && myAudioSource.clip == succRay) {
+					myAudioSource.Stop ();	//Stop sound effect
+				}
+				if (currentTarget != null) {
+					SetObjectAlpha (currentTarget, 0.6f);
+					currentTarget = null;
+					absorbTime = -1f;
+					coroutineCounter++;
+				}
 			}
-		} else {
-			myParticleSystem.gameObject.SetActive(false);	//Deactivate vacuum effect
-			if (myAudioSource.isPlaying && myAudioSource.clip == succRay) {
-				myAudioSource.Stop ();	//Stop sound effect
-			}
-			if (currentTarget != null) {
-				SetObjectAlpha (currentTarget, 0.6f);
-				currentTarget = null;
-				absorbTime = -1f;
-				coroutineCounter++;
-			}
-		}
 
 		//Check timeobject fade
 		if (absorbTime > 0) {
