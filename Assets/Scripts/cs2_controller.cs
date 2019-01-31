@@ -13,6 +13,10 @@ public class cs2_controller : MonoBehaviour {
 	public GameObject talkDialogue;
 	public GameObject eyeTop;
 	public GameObject eyeBottom;
+	public GameObject questBackground;
+	public GameObject questTag;
+	public GameObject questName;
+	public GameObject questSubtitle;
 
 	private bool hasShownSprintMsg;
 	private bool hasShownJumpMsg;
@@ -49,6 +53,10 @@ public class cs2_controller : MonoBehaviour {
 				StartCoroutine (HideMessage (jumpDialogue, 4.0f));
 			}
 		}
+	}
+
+	public void HideQuestMessage(){
+		StartCoroutine (HideMessage (questBackground, 3.0f));
 	}
 
 	//from the time the level loads to the time the player is given control

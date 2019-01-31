@@ -142,6 +142,12 @@ public class GunController : MonoBehaviour {
 		if(currentTarget != null && coroutineCounter == myNumber){	//Ensure we are still targeting
 			myHighlighter.AbsorbChangedObject ();
 			myInventory.Add(currentTarget.GetComponent<TimeObject>());
+
+			//Quest items
+			if (currentTarget.name == "Pebbles") {
+				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest (1);
+			}
+
 			absorbTime = -1f;
 			currentTarget.SetActive (false);
 			currentTarget = null;

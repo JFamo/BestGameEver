@@ -109,6 +109,7 @@ public class ConversationManager : MonoBehaviour {
 	}
 
 	public void CloseConversation(){
+		currentConversationSet.CloseConversation ();
 		isShowing = false;
 		myAnimator.Play ("CloseConvs");
 		StartCoroutine (FinishClose (2.0f));
