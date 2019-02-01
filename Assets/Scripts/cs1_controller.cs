@@ -114,7 +114,8 @@ public class cs1_controller : MonoBehaviour {
 		if (GameObject.Find("Dinosaur") == null && hasStartedAttackCoroutine) {
 			//END TUTORIAL
 			characterControllerScript.ForceLookAt (danny.transform);
-			SceneManager.LoadScene ("Greece", LoadSceneMode.Single);
+			Cutscene.scene = 1;
+			SceneManager.LoadScene ("CutsceneOne", LoadSceneMode.Single);
 		}
 	}
 
