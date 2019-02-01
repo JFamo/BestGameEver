@@ -26,6 +26,11 @@ public class cs2_controller : MonoBehaviour {
 	private bool hasShownEnergyMsg;
 	private bool hasShownCombatMsg;
 
+	public GameObject greek_helmet;
+	public GameObject greek_shield;
+	public GameObject greek_sword;
+	public GameObject greek_ballista;
+
 	void Start () {
 		characterControllerScript = player.GetComponent<FirstPersonController> ();
 		characterControllerScript.canLookAround = false;
@@ -74,6 +79,13 @@ public class cs2_controller : MonoBehaviour {
 				dannyDialogue.clip = dannyDialogues [5];
 				dannyDialogue.Play ();
 				hasShownCombatMsg = true;
+			}
+		}
+		if (gameObject.GetComponent<QuestTracker>().quests.Count > 1) {
+			if (gameObject.GetComponent<QuestTracker>().GetProgress (2) == 1) {
+				if(!greek_helmet.activeInHierarchy && !greek_sword.activeInHierarchy && !greek_shield.activeInHierarchy && !greek_ballista.activeInHierarchy){
+					gameObject.GetComponent<QuestTracker> ().AdvanceQuest (2);
+				}
 			}
 		}
 	}

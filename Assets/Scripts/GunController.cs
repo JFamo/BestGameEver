@@ -131,11 +131,12 @@ public class GunController : MonoBehaviour {
 					}
 					if (myHighlighter.getChangedType () == "enemy") {
 						absorbTime = Time.time;
-						StartCoroutine (AbsorbEnemy (currentTarget.GetComponent<TimeObject> ().length, coroutineCounter));	//begin absorb with delay of TimeObject length
+						Debug.Log ("Starting absorb enemy coroutine");
+						StartCoroutine (AbsorbEnemy (currentTarget.GetComponent<Enemy> ().length, coroutineCounter));	//begin absorb with delay of TimeObject length
 					}
 
 				} else if (myHighlighter.getChangedObject () != null && myHighlighter.getChangedType () == "energy") {
-					gameObject.GetComponentInParent<PlayerHealth> ().Heal (0.05f);
+					gameObject.GetComponentInParent<PlayerHealth> ().Heal (0.15f);
 				}
 			}
 			} else {
@@ -197,6 +198,7 @@ public class GunController : MonoBehaviour {
 	IEnumerator AbsorbEnemy(float delay, int myNumber){
 		yield return new WaitForSeconds (delay);
 		if(currentTarget != null && coroutineCounter == myNumber){	//Ensure we are still targeting
+			Debug.Log("Doing absorb enemy");
 			myHighlighter.AbsorbChangedObject ();
 			absorbTime = -1f;
 			currentTarget.SetActive (false);

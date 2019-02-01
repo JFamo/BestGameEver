@@ -85,13 +85,14 @@ public class Highlighter : MonoBehaviour {
 						RevertChangedObject ();
 					}
 					changedObject = new ChangedObject (hitObject, timeObjHighlighted, "timeobject");
-				} else if (hitObject.GetComponent<Enemy> () != null) { 
+				} else if (hitObject.GetComponent<Enemy> () != null && hitObject.GetComponentInParent<Enemy> () != null && hitObject.GetComponentInChildren<Enemy> () != null) { 
 					if (changedObject != null)
 					if (changedObject.myself == hitObject) {
 						return;
 					} else {
 						RevertChangedObject ();
 					}
+					Debug.Log ("Got enemy highlight");
 					changedObject = new ChangedObject (hitObject, enemyHighlighted, "enemy");
 				} else if (hitObject.GetComponent<EnergyObject> () != null) { 
 					if (changedObject != null)

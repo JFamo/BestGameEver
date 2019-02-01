@@ -122,7 +122,16 @@ public class Person : MonoBehaviour {
 			c.AddConversation( new Conversation("Bastillus", 2, true, "I do not know what that means, but if this is your fault, I need my weapons back. They are the proudest creations of Greece!", "What exactly did you lose?", "No Way!", 5, -1));
 			c.AddConversation( new Conversation("Bastillus", 1, true, "My bronze shield, my helmet, my xiphos shortsword, and my ballista! All gone!", "I will find your weapons for you.", -1, true));
 		
-			myQuest = new Quest(2, "Weaponsmith Woes", "Return Bastillus's inventions in weaponry", 6, new int[]{0, 14, 15, 19, 20, 22});
+			//6
+			c.AddConversation( new Conversation("Bastillus", 1, true, "Have you found my bronze shield, my helmet, my xiphos shortsword, and my ballist yet?", "I'm still working on it.", -1));
+
+			//7
+			c.AddConversation( new Conversation("Bastillus", 1, true, "You got them! Thank you so much! The might of Greece will forever be on your side!", "No problem!", -1, true));
+
+			//8
+			c.AddConversation( new Conversation("Bastillus", 1, true, "Thanks again for your help.", "Of course.", -1));
+
+			myQuest = new Quest(2, "Weaponsmith Woes", "Return Bastillus's inventions in weaponry", 4, new int[]{0, 6, 7, 8});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
 		}
