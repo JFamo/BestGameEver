@@ -24,6 +24,7 @@ public class cs2_controller : MonoBehaviour {
 	private bool hasShownSprintMsg;
 	private bool hasShownJumpMsg;
 	private bool hasShownEnergyMsg;
+	private bool hasShownCombatMsg;
 
 	void Start () {
 		characterControllerScript = player.GetComponent<FirstPersonController> ();
@@ -31,6 +32,8 @@ public class cs2_controller : MonoBehaviour {
 		characterControllerScript.canWalk = false;
 
 		hasShownSprintMsg = false;
+		hasShownEnergyMsg = false;
+		hasShownCombatMsg = false;
 		hasShownJumpMsg = false;
 
 		StartCoroutine(StartGame (2.30f));
@@ -64,6 +67,13 @@ public class cs2_controller : MonoBehaviour {
 				dannyDialogue.clip = dannyDialogues [4];
 				dannyDialogue.Play ();
 				hasShownEnergyMsg = true;
+			}
+		}
+		if (!hasShownCombatMsg) {
+			if (player.transform.position.y > 29) {
+				dannyDialogue.clip = dannyDialogues [5];
+				dannyDialogue.Play ();
+				hasShownCombatMsg = true;
 			}
 		}
 	}

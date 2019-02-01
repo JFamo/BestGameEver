@@ -129,6 +129,10 @@ public class GunController : MonoBehaviour {
 						absorbTime = Time.time;
 						StartCoroutine (AbsorbObject (currentTarget.GetComponent<TimeObject> ().length, coroutineCounter));	//begin absorb with delay of TimeObject length
 					}
+					if (myHighlighter.getChangedType () == "enemy") {
+						absorbTime = Time.time;
+						StartCoroutine (AbsorbEnemy (currentTarget.GetComponent<TimeObject> ().length, coroutineCounter));	//begin absorb with delay of TimeObject length
+					}
 
 				} else if (myHighlighter.getChangedObject () != null && myHighlighter.getChangedType () == "energy") {
 					gameObject.GetComponentInParent<PlayerHealth> ().Heal (0.05f);
@@ -176,6 +180,9 @@ public class GunController : MonoBehaviour {
 			if (currentTarget.name == "Pebbles") {
 				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest (1);
 			}
+			if (currentTarget.name == "Gong") {
+				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest (1);
+			}
 
 			absorbTime = -1f;
 			currentTarget.SetActive (false);
@@ -183,6 +190,17 @@ public class GunController : MonoBehaviour {
 			myAudioSource.clip = succComplete;
 			myAudioSource.volume = 1.0f;
 			myAudioSource.Play ();
+		}
+	}
+
+	//function to remove an enemy from the scene and add it to inventory
+	IEnumerator AbsorbEnemy(float delay, int myNumber){
+		yield return new WaitForSeconds (delay);
+		if(currentTarget != null && coroutineCounter == myNumber){	//Ensure we are still targeting
+			myHighlighter.AbsorbChangedObject ();
+			absorbTime = -1f;
+			currentTarget.SetActive (false);
+			currentTarget = null;
 		}
 	}
 

@@ -57,7 +57,7 @@ public class PlayerHealth : MonoBehaviour
 		healed = false;
 
 		if(Input.GetKeyDown(KeyCode.Q)){
-			this.TakeDamage(10.0f);
+			this.TakeDamage(3.0f);
 		}
 	}
 
