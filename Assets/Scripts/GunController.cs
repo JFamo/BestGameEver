@@ -155,7 +155,12 @@ public class GunController : MonoBehaviour {
 		//Check timeobject fade
 		if (absorbTime > 0) {
 			if (currentTarget != null) {
-				SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) * 0.6f / currentTarget.GetComponent<TimeObject> ().length));
+				if(myHighlighter.getChangedType () == "timeobject"){
+					SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) * 0.6f / currentTarget.GetComponent<TimeObject> ().length));
+				}
+				else if(myHighlighter.getChangedType () == "enemy"){
+					SetObjectAlpha (currentTarget, 1 - ((Time.time - absorbTime) * 0.6f / currentTarget.GetComponent<Enemy> ().length));
+				}
 			}
 		}
 

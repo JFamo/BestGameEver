@@ -26,6 +26,7 @@ public class LaikaController : MonoBehaviour {
 		if(Vector3.Distance(transform.position, player.transform.position) < 10.0f){
 			transform.LookAt (player.transform.position);
 			if (canShoot) {
+				gameObject.GetComponent<AudioSource> ().Play ();
 				GameObject newProjectile = GameObject.Instantiate (myProjectile, transform.position, transform.rotation);
 				newProjectile.transform.LookAt (player.transform.position);
 				newProjectile.SetActive (true);
