@@ -10,7 +10,6 @@ public class Cutscene : MonoBehaviour {
 
 	// Update is called once per frame
 	void Start () {
-		scene = 1;
 		if(scene != myId){
 			this.gameObject.SetActive (false);
 		}
@@ -26,6 +25,12 @@ public class Cutscene : MonoBehaviour {
 		yield return new WaitForSeconds(l);
 		if (myId == 1) {
 			scenecontroller.LoadScene ("Greece");
+		}
+		if (myId == 2) {
+			scenecontroller.LoadScene ("Cleveland");
+		}
+		if (myId == 3) {
+			scenecontroller.LoadScene ("Classroom");
 		}
 	}
 

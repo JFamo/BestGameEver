@@ -144,7 +144,7 @@ public class cs1_controller : MonoBehaviour {
 		mouseMoveDialogue.GetComponent<DialogueAnimator> ().Disappear ();
 		characterControllerScript.ForceLookAt (danny.transform);
 		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[1]);
-		yield return new WaitForSeconds (10.467f);
+		yield return new WaitForSeconds (10.0f);
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
 		playerMoveDialogue.SetActive (true);
@@ -163,9 +163,9 @@ public class cs1_controller : MonoBehaviour {
 		yield return new WaitForSeconds (delay);
 		characterControllerScript.ForceLookAt (danny.transform);
 		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[2]);
-		yield return new WaitForSeconds (5.500f);
+		yield return new WaitForSeconds (4.900f);
 		characterControllerScript.ForceLookAt (clawbot.transform);
-		yield return new WaitForSeconds (2.789f);
+		yield return new WaitForSeconds (1.700f);
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
 		lmbDialogue.SetActive (true);
@@ -177,11 +177,7 @@ public class cs1_controller : MonoBehaviour {
 		yield return new WaitForSeconds (delay);
 		characterControllerScript.ForceLookAt (danny.transform);
 		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[3]);
-		yield return new WaitForSeconds (7.367f);
-		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[4]);
-		yield return new WaitForSeconds (9.474f);
-		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[5]);
-		yield return new WaitForSeconds (15.504f);
+		yield return new WaitForSeconds (28.200f);
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
 		scrollDialogue.SetActive (true);
@@ -199,8 +195,8 @@ public class cs1_controller : MonoBehaviour {
 		rmbDialogue.GetComponent<DialogueAnimator> ().Disappear ();
 		yield return new WaitForSeconds (delay);
 		characterControllerScript.ForceLookAt (danny.transform);
-		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[6]);
-		yield return new WaitForSeconds (5.093f);
+		danny.GetComponent<DannySoundController> ().PlaySound (audioclips[4]);
+		yield return new WaitForSeconds (4.700f);
 		hasStartedAttackCoroutine = true;
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
