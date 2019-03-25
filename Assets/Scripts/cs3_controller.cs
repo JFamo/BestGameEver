@@ -36,6 +36,11 @@ public class cs3_controller : MonoBehaviour {
 		StartCoroutine (HideMessage (questBackground, 3.0f));
 	}
 
+	public void PlayDanny(int id){
+		dannyDialogue.clip = dannyDialogues [id];
+		dannyDialogue.Play ();
+	}
+
 	//from the time the level loads to the time the player is given control
 	IEnumerator StartGame(float delay){
 		yield return new WaitForSeconds (delay);

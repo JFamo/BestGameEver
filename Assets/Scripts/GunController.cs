@@ -189,6 +189,15 @@ public class GunController : MonoBehaviour {
 			if (currentTarget.name == "Gong") {
 				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest (1);
 			}
+			if (currentTarget.name == "LunarLander") {
+				GameObject.Find ("Controller").GetComponent<cs3_controller> ().PlayDanny (1);
+			}
+			if (currentTarget.name == "Nuke") {
+				GameObject.Find ("Controller").GetComponent<cs3_controller> ().PlayDanny (2);
+			}
+			if (currentTarget.name == "Transistor") {
+				GameObject.Find ("Controller").GetComponent<cs3_controller> ().PlayDanny (3);
+			}
 
 			absorbTime = -1f;
 			currentTarget.SetActive (false);
