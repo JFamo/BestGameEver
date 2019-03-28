@@ -10,6 +10,7 @@ public class GunController : MonoBehaviour {
 	private Highlighter myHighlighter;
 	private AudioSource myAudioSource;
 
+	private bool inventoryEnabled = true; //Used to turn off inventory in tutorial until needed
 	private float range = 7.5f; //Range in Unity units at which I can succ
 	private float absorbTime; //Raw time at which current absorbtion action began, used for opacity
 	private float prevScroll; //Previous frame mousewheel scroll
@@ -56,7 +57,7 @@ public class GunController : MonoBehaviour {
 
 	void Update () {
 		//Get inventory scrolling
-		if (Input.GetAxis ("Mouse ScrollWheel") != prevScroll) {
+		if (Input.GetAxis ("Mouse ScrollWheel") != prevScroll && inventoryEnabled) {
 			if (GameObject.Find ("Controller") != null) {
 				if (!GameObject.Find ("Controller").GetComponent<ConversationManager> ().isShowing) {
 					prevScroll = Input.GetAxis ("Mouse ScrollWheel");
@@ -165,7 +166,7 @@ public class GunController : MonoBehaviour {
 		}
 
 		//Check Object Placement
-		if (Input.GetButtonDown ("Fire2")) {
+		if (Input.GetButtonDown ("Fire2") && inventoryEnabled) {
 			PlaceCurrentObject ();
 		}
 			
@@ -312,5 +313,13 @@ public class GunController : MonoBehaviour {
 
 	public void ClearCurrentTarget(){
 		currentTarget = null;
+	}
+
+	public void EnableInventory(){
+		inventoryEnabled = true;
+	}
+
+	public void DisableInventory(){
+		inventoryEnabled = false;
 	}
 }

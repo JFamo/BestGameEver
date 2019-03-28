@@ -42,6 +42,7 @@ public class cs1_controller : MonoBehaviour {
 		//Set defaults
 		hasGun = false;
 		playerGun.GetComponent<GunController> ().GrabDinosaur ();
+		playerGun.GetComponent<GunController> ().DisableInventory ();
 		player.SetActive (false);
 		titleBackground.SetActive (true);
 		mouseMoveDialogue.SetActive (false);
@@ -180,6 +181,7 @@ public class cs1_controller : MonoBehaviour {
 		yield return new WaitForSeconds (28.200f);
 		characterControllerScript.canLookAround = true;
 		characterControllerScript.canWalk = true;
+		playerGun.GetComponent<GunController> ().EnableInventory ();
 		scrollDialogue.SetActive (true);
 	}
 

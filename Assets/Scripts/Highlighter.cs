@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Highlighter : MonoBehaviour {
 
-	private float length;
+	private float length; //How far the beam travels
+	private float offsetFactor; //How far away from player the beam begins
 	private GameObject hitObject;
 
 	public Material timeObjHighlighted;
@@ -64,6 +65,7 @@ public class Highlighter : MonoBehaviour {
 	ChangedObject changedObject;
 
 	void Start () {
+		offsetFactor = 1.0f;
 		if(GameObject.Find("TutorialController") != null){
 			length = 5.0f;
 		}else{
@@ -72,7 +74,7 @@ public class Highlighter : MonoBehaviour {
 	}
 
 	void Update () {
-		Ray ray = new Ray (transform.position, transform.TransformDirection (Vector3.forward));
+		Ray ray = new Ray (transform.position + (transform.forward * offsetFactor), transform.TransformDirection (Vector3.forward));
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit, length)) {
 			hitObject = hit.transform.root.gameObject;

@@ -55,10 +55,6 @@ public class PlayerHealth : MonoBehaviour
 
 		// Reset the damaged flag.
 		healed = false;
-
-		if(Input.GetKeyDown(KeyCode.Q)){
-			this.TakeDamage(3.0f);
-		}
 	}
 
 

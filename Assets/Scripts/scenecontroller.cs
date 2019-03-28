@@ -11,4 +11,10 @@ public class scenecontroller : MonoBehaviour {
 
 	}
 
+	public void EndGame(){
+
+		Application.Quit ();
+
+	}
+
 }
