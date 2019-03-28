@@ -37,6 +37,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private CollisionFlags m_CollisionFlags;
         private bool m_PreviouslyGrounded;
         private Vector3 m_OriginalCameraPosition;
+		private Quaternion m_OriginalCameraRotation;
         private float m_StepCycle;
         private float m_NextStep;
         private bool m_Jumping;
@@ -52,6 +53,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
+			m_OriginalCameraRotation = m_Camera.transform.localRotation;
             m_FovKick.Setup(m_Camera);
             m_HeadBob.Setup(m_Camera, m_StepInterval);
             m_StepCycle = 0f;
@@ -88,6 +90,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 			if (transform.eulerAngles.z != 0 && canLookAround) {
 				transform.eulerAngles = new Vector3 (0.0f, transform.eulerAngles.y, 0.0f);
+			}
+
+			//Check to ensure that we do not continue to SLERP camera rot after cutscene
+			if (canLookAround && forceLookObj != null) {
+				forceLookObj = null;
 			}
         }
 
@@ -142,11 +149,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_MouseLook.UpdateCursorLock();
 
 			if (forceLookObj != null) {
-				Quaternion targetRotation = Quaternion.LookRotation (forceLookObj.transform.position - transform.position);
-				if(Quaternion.Angle(targetRotation, transform.rotation) < 0.1f){
+				Quaternion targetRotation = Quaternion.LookRotation (new Vector3(forceLookObj.transform.position.x,3.0f,forceLookObj.transform.position.z) - transform.position);
+				if(Quaternion.Angle(targetRotation, transform.rotation) < 0.50f && Quaternion.Angle(m_Camera.transform.localRotation, m_OriginalCameraRotation) < 0.50f){
 					ReInitMouseLook ();
 					forceLookObj = null;
 				}else{
+					m_Camera.transform.localRotation = Quaternion.Slerp(m_Camera.transform.localRotation, m_OriginalCameraRotation, 5.0f * Time.deltaTime);
 					transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5.0f * Time.deltaTime);
 				}
 			}
