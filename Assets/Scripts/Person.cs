@@ -121,6 +121,13 @@ public class Person : MonoBehaviour {
 				19,
 				20,
 				22
+			}, new string[]{
+				"Talk to Ctesibius",
+				"Collect pebbles from the pond for Ctesibius",
+				"Return the pebbles to Ctesibius",
+				"Get a gong for Ctesibius",
+				"Return the gong to Ctesibius",
+				"Place the alarm clock in the market"
 			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
@@ -141,7 +148,12 @@ public class Person : MonoBehaviour {
 			//8
 			c.AddConversation (new Conversation ("Bastillus", 1, true, "Thanks again for your help.", "Of course.", -1));
 
-			myQuest = new Quest (2, "Weaponsmith Woes", "Return Bastillus's inventions in weaponry", 4, new int[]{ 0, 6, 7, 8 });
+			myQuest = new Quest (2, "Weaponsmith Woes", "Return Bastillus's inventions in weaponry", 4, new int[]{ 0, 6, 7, 8 }, new string[]{
+				"Talk to Bastillus",
+				"Collect a shield, helmet, shortsword, and ballista",
+				"Return the weapons to Bastillus",
+				"Quest Complete"
+			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
 		} else if (myID == 3) {
@@ -161,7 +173,12 @@ public class Person : MonoBehaviour {
 			//8
 			c.AddConversation (new Conversation ("Bastillus", 1, true, "Thanks again for your help.", "Of course.", -1));
 
-			myQuest = new Quest (2, "Weaponsmith Woes", "Return Bastillus's inventions in weaponry", 4, new int[]{ 0, 6, 7, 8 });
+			myQuest = new Quest (2, "Weaponsmith Woes", "Return Bastillus's inventions in weaponry", 4, new int[]{ 0, 6, 7, 8 }, new string[]{
+				"Talk to x",
+				"Collect x",
+				"Return x",
+				"Quest Complete"
+			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
 		} else if (myID == 5) {
@@ -173,7 +190,10 @@ public class Person : MonoBehaviour {
 			//4
 			c.AddConversation (new Conversation ("Kobe", 1, true, "Have fun with lunar lander.", "Uh, yeah", -1));
 
-			myQuest = new Quest(3, "Moon Shot", "See if the Lunar Lander invented the future", 2, new int[]{0, 4});
+			myQuest = new Quest(3, "Moon Shot", "See if the Lunar Lander invented the future", 2, new int[]{0, 4}, new string[]{
+				"Talk to Kobe",
+				"See if the Lunar Lander invented the future"
+			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
 		} else if (myID == 6) {
@@ -185,7 +205,10 @@ public class Person : MonoBehaviour {
 			//4
 			c.AddConversation (new Conversation ("Kobe", 1, true, "Please do not have too much fun with atomic bomb.", "I'll be careful.", -1));
 
-			myQuest = new Quest(4, "You're The Bomb", "See if the Atomic Bomb invented the future", 2, new int[]{0, 4});
+			myQuest = new Quest(4, "You're The Bomb", "See if the Atomic Bomb invented the future", 2, new int[]{0, 4}, new string[]{
+				"Talk to Kobe",
+				"See if the Atomic Bomb invented the future"
+			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
 		}
@@ -197,7 +220,10 @@ public class Person : MonoBehaviour {
 			//3
 			c.AddConversation (new Conversation ("Kobe", 1, true, "I think you will like the microtransistor.", "I think this may be it.", -1));
 
-			myQuest = new Quest(5, "This Ko-be The One", "See if the Microtransistor invented the future", 2, new int[]{0, 3});
+			myQuest = new Quest(5, "This Ko-be The One", "See if the Microtransistor invented the future", 2, new int[]{0, 3}, new string[]{
+				"Talk to Kobe",
+				"See if the Microtransistor invented the future"
+			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
 		}

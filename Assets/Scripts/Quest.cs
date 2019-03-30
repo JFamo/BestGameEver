@@ -11,14 +11,16 @@ public class Quest{
 	public int myid;
 	public int progress;
 	public int progressStages;
+	public string[] progressDescriptions;
 	public int[] c_links;
 
-	public Quest(int myid, string name, string subtitle, int progressStages, int[] clinks){
+	public Quest(int myid, string name, string subtitle, int progressStages, int[] clinks, string[] progressDescriptions){
 		this.myid = myid;
 		this.name = name;
 		this.subtitle = subtitle;
 		complete = false;
 		c_links = clinks;
+		this.progressDescriptions = progressDescriptions;
 		progress = 0;
 		this.progressStages = progressStages;
 	}
@@ -29,6 +31,10 @@ public class Quest{
 		if (progress == progressStages) {
 			Complete ();
 		}
+	}
+
+	public int getProgress(){
+		return progress;
 	}
 
 	public void Complete(){

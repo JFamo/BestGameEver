@@ -24,6 +24,7 @@ public class GunController : MonoBehaviour {
 
 	//GUI
 	public Transform inventoryInterface;
+	public Transform questInterface;
 	public Transform emptyInvMessage;
 	float latestInvLoad;
 	float latestEmptyInvMessageLoad;
@@ -75,7 +76,9 @@ public class GunController : MonoBehaviour {
 
 					//make new UI 
 					GenerateInventoryUI ();
+					GenerateQuestUI ();
 					inventoryInterface.gameObject.SetActive (true);
+					questInterface.gameObject.SetActive (true);
 					StartCoroutine (DelayHideInventory (3.0f));
 				}
 			} else {
@@ -95,7 +98,9 @@ public class GunController : MonoBehaviour {
 
 				//make new UI 
 				GenerateInventoryUI ();
+				GenerateQuestUI ();
 				inventoryInterface.gameObject.SetActive (true);
+				questInterface.gameObject.SetActive (true);
 				StartCoroutine (DelayHideInventory (3.0f));
 			}
 		}
@@ -242,6 +247,7 @@ public class GunController : MonoBehaviour {
 		yield return new WaitForSeconds (delay);
 		if (latestInvLoad + delay <= Time.time + 0.5f ){
 			inventoryInterface.gameObject.SetActive (false);
+			questInterface.gameObject.SetActive (false);
 		}
 	}
 
@@ -285,6 +291,49 @@ public class GunController : MonoBehaviour {
 			thisText.name = "itemText";
 		}
 
+		sampleText.gameObject.SetActive (false);
+	}
+
+	public void GenerateQuestUI(){
+		//Grab Prefabs
+		GameObject sampleTitle = questInterface.Find ("SampleTitle").gameObject;
+		GameObject sampleText = questInterface.Find ("SampleText").gameObject;
+		sampleText.gameObject.SetActive (true);
+		sampleTitle.gameObject.SetActive (true);
+		GameObject thisTitle;
+		GameObject thisText;
+
+		//Clear Item Texts
+		questInterface.gameObject.SetActive (true);
+		foreach (GameObject g in GameObject.FindGameObjectsWithTag("QuestText")) {
+			if (g.name == "SampleText" || g.name == "SampleTitle") {
+				break;
+			} else {
+				Destroy (g);
+			}
+		}
+		questInterface.gameObject.SetActive (false);
+
+		//Create New Quest Text Items
+		QuestTracker questMgr = GameObject.Find("Controller").GetComponent<QuestTracker>();
+		int counter = -1;
+		foreach (Quest q in questMgr.quests) {
+			counter++;
+			thisTitle = GameObject.Instantiate (sampleTitle);
+			thisTitle.transform.SetParent (sampleTitle.transform.parent);
+			thisTitle.transform.localScale = sampleTitle.GetComponent<RectTransform>().localScale;
+			thisTitle.transform.localPosition = new Vector3 (sampleTitle.GetComponent<RectTransform>().localPosition.x, sampleTitle.GetComponent<RectTransform>().localPosition.y - (46.27f * counter), sampleTitle.GetComponent<RectTransform>().localPosition.z);
+			thisTitle.GetComponentInChildren<Text> ().text = q.name;
+			thisTitle.name = "questTitle" + counter;
+			thisText = GameObject.Instantiate (sampleText);
+			thisText.transform.SetParent (sampleText.transform.parent);
+			thisText.transform.localScale = sampleText.GetComponent<RectTransform>().localScale;
+			thisText.transform.localPosition = new Vector3 (sampleText.GetComponent<RectTransform>().localPosition.x, sampleText.GetComponent<RectTransform>().localPosition.y - (46.27f * counter), sampleText.GetComponent<RectTransform>().localPosition.z);
+			thisText.GetComponentInChildren<Text> ().text = q.progressDescriptions[q.progress];
+			thisText.name = "questText" + counter;
+		}
+
+		sampleTitle.gameObject.SetActive (false);
 		sampleText.gameObject.SetActive (false);
 	}
 

@@ -79,7 +79,7 @@ public class Highlighter : MonoBehaviour {
 		if (Physics.Raycast (ray, out hit, length)) {
 			hitObject = hit.transform.root.gameObject;
 			if (hitObject) {
-				if (hitObject.GetComponent<TimeObject> () != null) {
+				if (hitObject.GetComponent<TimeObject> () != null && !hitObject.GetComponent<TimeObject>().isInactive) {
 					if (changedObject != null)
 					if (changedObject.myself == hitObject) {
 						return;
