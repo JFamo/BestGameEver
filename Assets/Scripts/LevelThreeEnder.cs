@@ -8,6 +8,7 @@ public class LevelThreeEnder : MonoBehaviour {
 
 	private GameObject player;
 	private QuestTracker questTracker;
+	private Quest myQuest;
 
 	// Use this for initialization
 	void Start () {
@@ -18,11 +19,13 @@ public class LevelThreeEnder : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-				if (Vector3.Distance (transform.position, player.transform.position) < 7.5f) {
+			if (Vector3.Distance (transform.position, player.transform.position) < 12.0f) {
+			if (GetMyQuest(7).progress == 2) {
 					endLevelText.SetActive (true);
-				} else if (endLevelText.activeInHierarchy) {
-					endLevelText.SetActive (false);
 				}
+			} else if (endLevelText.activeInHierarchy) {
+				endLevelText.SetActive (false);
+			}
 
 			if (Input.GetKeyDown (KeyCode.E) && endLevelText.activeInHierarchy) {
 				EndLevel ();
@@ -32,5 +35,14 @@ public class LevelThreeEnder : MonoBehaviour {
 	public void EndLevel(){
 		Cutscene.scene = 3;
 		scenecontroller.LoadScene ("CutsceneOne");
+	}
+
+	public Quest GetMyQuest(int qid){
+		for (int i = 0; i < questTracker.quests.Count; i++) {
+			if (questTracker.quests [i].myid == qid) {
+				return questTracker.quests [i];
+			}
+		}
+		return null;
 	}
 }

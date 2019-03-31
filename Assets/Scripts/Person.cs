@@ -21,7 +21,11 @@ public class Person : MonoBehaviour {
 		if (GameObject.Find ("Controller").GetComponent<cs2_controller> () != null) {
 			talkDialogue = GameObject.Find ("Controller").GetComponent<cs2_controller> ().talkDialogue;
 		} else {
-			talkDialogue = null;
+			if (GameObject.Find ("Controller").GetComponent<cs3_controller> () != null) {
+				talkDialogue = GameObject.Find ("Controller").GetComponent<cs3_controller> ().talkDialogue;
+			} else {
+				talkDialogue = null;
+			}
 		}
 		questTracker = GameObject.Find ("Controller").GetComponent<QuestTracker> ();
 	}
@@ -190,9 +194,10 @@ public class Person : MonoBehaviour {
 			//4
 			c.AddConversation (new Conversation ("Kobe", 1, true, "Have fun with lunar lander.", "Uh, yeah", -1));
 
-			myQuest = new Quest(3, "Moon Shot", "See if the Lunar Lander invented the future", 2, new int[]{0, 4}, new string[]{
+			myQuest = new Quest(5, "Moon Shot", "See if the Lunar Lander invented the future", 3, new int[]{0, 4, 4}, new string[]{
 				"Talk to Kobe",
-				"See if the Lunar Lander invented the future"
+				"See if the Lunar Lander invented the future",
+				"QUEST COMPLETE"
 			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
@@ -205,9 +210,10 @@ public class Person : MonoBehaviour {
 			//4
 			c.AddConversation (new Conversation ("Kobe", 1, true, "Please do not have too much fun with atomic bomb.", "I'll be careful.", -1));
 
-			myQuest = new Quest(4, "You're The Bomb", "See if the Atomic Bomb invented the future", 2, new int[]{0, 4}, new string[]{
+			myQuest = new Quest(6, "You're The Bomb", "See if the Atomic Bomb invented the future", 3, new int[]{0, 4, 4}, new string[]{
 				"Talk to Kobe",
-				"See if the Atomic Bomb invented the future"
+				"See if the Atomic Bomb invented the future",
+				"QUEST COMPLETE"
 			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
@@ -220,9 +226,10 @@ public class Person : MonoBehaviour {
 			//3
 			c.AddConversation (new Conversation ("Kobe", 1, true, "I think you will like the microtransistor.", "I think this may be it.", -1));
 
-			myQuest = new Quest(5, "This Ko-be The One", "See if the Microtransistor invented the future", 2, new int[]{0, 3}, new string[]{
+			myQuest = new Quest(7, "This Ko-be The One", "See if the Microtransistor invented the future", 3, new int[]{0, 3, 3}, new string[]{
 				"Talk to Kobe",
-				"See if the Microtransistor invented the future"
+				"See if the Microtransistor invented the future",
+				"QUEST COMPLETE"
 			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);

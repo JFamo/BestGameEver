@@ -14,6 +14,7 @@ public class cs3_controller : MonoBehaviour {
 	public GameObject questTag;
 	public GameObject questName;
 	public GameObject questSubtitle;
+	public GameObject talkDialogue;
 
 	public AudioSource dannyDialogue;
 	public AudioClip[] dannyDialogues;

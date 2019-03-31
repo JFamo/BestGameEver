@@ -5,6 +5,7 @@ using UnityEngine;
 public class Cutscene : MonoBehaviour {
 
 	public static int scene = 0;
+	public static int returnLevel = 0;
 	public float length;
 	public int myId;
 
@@ -25,12 +26,26 @@ public class Cutscene : MonoBehaviour {
 		yield return new WaitForSeconds(l);
 		if (myId == 1) {
 			scenecontroller.LoadScene ("Greece");
+			returnLevel = 1;
 		}
 		if (myId == 2) {
 			scenecontroller.LoadScene ("Cleveland");
+			returnLevel = 2;
 		}
 		if (myId == 3) {
 			scenecontroller.LoadScene ("Classroom");
+			returnLevel = 3;
+		}
+		if (myId == 4) {
+			if (returnLevel == 1) {
+				scenecontroller.LoadScene ("Greece");
+			}
+			if (returnLevel == 2) {
+				scenecontroller.LoadScene ("Cleveland");
+			}
+			if (returnLevel == 3) {
+				scenecontroller.LoadScene ("Classroom");
+			}
 		}
 	}
 

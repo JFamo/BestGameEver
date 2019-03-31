@@ -76,9 +76,13 @@ public class GunController : MonoBehaviour {
 
 					//make new UI 
 					GenerateInventoryUI ();
-					GenerateQuestUI ();
+					if (GameObject.Find ("TutorialController") == null) {
+						GenerateQuestUI ();
+					}
 					inventoryInterface.gameObject.SetActive (true);
-					questInterface.gameObject.SetActive (true);
+					if (GameObject.Find ("TutorialController") == null) {
+						questInterface.gameObject.SetActive (true);
+					}
 					StartCoroutine (DelayHideInventory (3.0f));
 				}
 			} else {
@@ -98,9 +102,13 @@ public class GunController : MonoBehaviour {
 
 				//make new UI 
 				GenerateInventoryUI ();
-				GenerateQuestUI ();
+				if (GameObject.Find ("TutorialController") == null) {
+					GenerateQuestUI ();
+				}
 				inventoryInterface.gameObject.SetActive (true);
-				questInterface.gameObject.SetActive (true);
+				if (GameObject.Find ("TutorialController") == null) {
+					questInterface.gameObject.SetActive (true);
+				}
 				StartCoroutine (DelayHideInventory (3.0f));
 			}
 		}
@@ -196,12 +204,15 @@ public class GunController : MonoBehaviour {
 				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest (1);
 			}
 			if (currentTarget.name == "LunarLander") {
+				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest(5);
 				GameObject.Find ("Controller").GetComponent<cs3_controller> ().PlayDanny (1);
 			}
 			if (currentTarget.name == "Nuke") {
+				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest(6);
 				GameObject.Find ("Controller").GetComponent<cs3_controller> ().PlayDanny (2);
 			}
 			if (currentTarget.name == "Transistor") {
+				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest(7);
 				GameObject.Find ("Controller").GetComponent<cs3_controller> ().PlayDanny (3);
 			}
 

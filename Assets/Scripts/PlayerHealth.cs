@@ -103,5 +103,7 @@ public class PlayerHealth : MonoBehaviour
 	public void Death ()
 	{
 		isDead = true;
+		Cutscene.scene = 4;
+		scenecontroller.LoadScene ("CutsceneOne");
 	}       
 }
