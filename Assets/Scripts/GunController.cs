@@ -122,6 +122,8 @@ public class GunController : MonoBehaviour {
 				if (gameObject.GetComponentInParent<PlayerHealth> ().currentHealth > 0.025f) {
 					canSucc = true;
 					gameObject.GetComponentInParent<PlayerHealth> ().UseEnergy (0.025f);
+				} else {
+					GameObject.Find ("FPSController").GetComponentInChildren<PlayerHealth> ().TakeDamage (5.0f);
 				}
 			} else {
 				canSucc = true;
