@@ -19,7 +19,7 @@ public class SopwithController : MonoBehaviour {
 		player = GameObject.Find ("FPSController");
 		targetPosition = transform.position;
 		canShoot = true;
-		cooldownTime = 2.0f;
+		cooldownTime = 0.8f;
 		myProjectile.SetActive (false);
 	}
 
@@ -39,8 +39,8 @@ public class SopwithController : MonoBehaviour {
 		if(Vector3.Distance(transform.position, targetPosition) > 0.5f){
 			transform.position = Vector3.MoveTowards (transform.position, targetPosition, speed * Time.deltaTime);
 		}
-		if(Random.Range(0,240) < 2 && Vector3.Distance(transform.position, player.transform.position) < range){
-			targetPosition = (Random.insideUnitSphere * 5) + transform.position;
+		if(Random.Range(0,480) < 2 && Vector3.Distance(transform.position, player.transform.position) < range){
+			targetPosition = (Random.insideUnitSphere * 20) + transform.position;
 			targetPosition.y = transform.position.y;
 		}
 	}

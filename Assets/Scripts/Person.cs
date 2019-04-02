@@ -185,32 +185,38 @@ public class Person : MonoBehaviour {
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
 		} else if (myID == 5) {
-			c.AddConversation (new Conversation ("Kobe", 2, true, "Hello. I am Kobe.", "What's going on, Kobe?", "Hey Kobe - I'm looking for inventions.", 1, 2));
-			c.AddConversation (new Conversation ("Kobe", 2, true, "I am standing and talking to you. So not much.", "Uh... Okay", "Goodbye.", 0, -1));
-			c.AddConversation (new Conversation ("Kobe", 1, true, "There is a very neat invention up ahead.", "What's that?", 3));
-			c.AddConversation (new Conversation ("Kobe", 1, true, "Lunar Lander! The one used by Buzz Aldrin and Neil Armstrong. Don't know how it got here, but I like it.", "Of Course! Thanks Kobe!", -1, true));
+			c.AddConversation (new Conversation ("Buzz Aldrin", 2, true, "What? Where? Who are you?", "Are you Buzz Aldrin?", "I think we're in the future", 1, 2));
+			c.AddConversation (new Conversation ("Buzz Aldrin", 2, true, "Yes! At least, I think so. I was about to walk on the moon when suddenly...", "You woke up here?", "You went to the moon?", 3, 4));
+			c.AddConversation (new Conversation ("Buzz Aldrin", 1, true, "The future... interesting. It doesn't quite look like the future.", "That might be my fault.", 5));
+			c.AddConversation (new Conversation ("Buzz Aldrin", 1, true, "Yes, I did.", "That might be my fault.", 5));
+			c.AddConversation (new Conversation ("Buzz Aldrin", 1, true, "The year is... or, was, 1969. The first manned mission to the moon. I was so close. So close!", "That might be my fault.", 5));
+			c.AddConversation (new Conversation ("Buzz Aldrin", 3, true, "Your fault? What did you do, break the space-time continuum?", "Uh, yeah.", "Perhaps.", "Unfortunately...", 6, 6, 6));
+			c.AddConversation (new Conversation ("Buzz Aldrin", 1, true, "Intriguing! Absolutely. What did you do, and more importantly, how do we fix it?", "I need to find the invention that made the future.", 7));
+			c.AddConversation (new Conversation ("Buzz Aldrin", 1, true, "That's an easy one! My lunar lander is right over there; without space travel, humanity has no future.", "I'll go check it out.", -1, true));
 
-			//4
-			c.AddConversation (new Conversation ("Kobe", 1, true, "Have fun with lunar lander.", "Uh, yeah", -1));
+			//8
+			c.AddConversation (new Conversation ("Buzz Aldrin", 1, true, "I bet you anything the lunar lander was the invention of the future.", "I'll keep looking.", -1));
 
-			myQuest = new Quest(5, "Moon Shot", "See if the Lunar Lander invented the future", 3, new int[]{0, 4, 4}, new string[]{
-				"Talk to Kobe",
+			myQuest = new Quest(5, "Moon Shot", "See if the Lunar Lander invented the future", 3, new int[]{0, 8, 8}, new string[]{
+				"Talk to Aldrin",
 				"See if the Lunar Lander invented the future",
 				"QUEST COMPLETE"
 			});
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
 		} else if (myID == 6) {
-			c.AddConversation (new Conversation ("Kobe", 2, true, "Hello. I am Kobe.", "Wait, wasn't the last guy named Kobe?", "Do I... know you?", 1, 2));
-			c.AddConversation (new Conversation ("Kobe", 1, true, "Yes! Everyone in the future is named Kobe!", "Ah, Alright", 3));
-			c.AddConversation (new Conversation ("Kobe", 1, true, "I do not think so.", "But wasn't the last guy named Kobe?", 1));
-			c.AddConversation (new Conversation ("Kobe", 1, true, "You must be the one looking for inventions! You will love the atomic bomb up ahead!", "Yes! The Atomic Bomb made the future!", -1, true));
+			c.AddConversation (new Conversation ("Robert Oppenheimer", 2, true, "Now I am become death, destroyer of worlds. Truly this must be my doing. The world is broke, and yet, started anew.", "Huh?", "What are you talking about?", 1, 1));
+			c.AddConversation (new Conversation ("Robert Oppenheimer", 2, true, "The last thing I remember we were at Trinity. The bomb went off, and evidently caused immesurable destruction. I don't know where I am anymore.", "You're in the future", "Actually, this was my fault", 2, 3));
+			c.AddConversation (new Conversation ("Robert Oppenheimer", 1, true, "The future- interesting. How do you know so much about this place?", "I may have caused this mess.", 3));
+			c.AddConversation (new Conversation ("Robert Oppenheimer", 3, true, "Your fault? What did you do, break the space-time continuum?", "Uh, yeah.", "Perhaps.", "Unfortunately...", 4, 4, 4));
+			c.AddConversation (new Conversation ("Robert Oppenheimer", 1, true, "You absolutely must explain! What year are you from? Is this your home? Is this our universe?", "I just need to find the invention of the future.", 5));
+			c.AddConversation (new Conversation ("Robert Oppenheimer", 1, true, "Elementary! The Trinity test has assured me that the atomic bomb will define our future. We have harnessed the power of stars.", "I'll check it out.", -1, true));
 
-			//4
-			c.AddConversation (new Conversation ("Kobe", 1, true, "Please do not have too much fun with atomic bomb.", "I'll be careful.", -1));
+			//6
+			c.AddConversation (new Conversation ("Robert Oppenheimer", 1, true, "I have a new hypothesis. I believe that we are in Canton, Ohio.", "I think we have to reject that one.", -1));
 
-			myQuest = new Quest(6, "You're The Bomb", "See if the Atomic Bomb invented the future", 3, new int[]{0, 4, 4}, new string[]{
-				"Talk to Kobe",
+			myQuest = new Quest(6, "You're The Bomb", "See if the Atomic Bomb invented the future", 3, new int[]{0, 6, 6}, new string[]{
+				"Talk to Oppenheimer",
 				"See if the Atomic Bomb invented the future",
 				"QUEST COMPLETE"
 			});
@@ -218,15 +224,18 @@ public class Person : MonoBehaviour {
 			c.SetQuest (myQuest);
 		}
 		else if (myID == 7) {
-			c.AddConversation (new Conversation ("Kobe", 1, true, "Hello. I am Kobe.", "Yeah, yeah, I know", 1));
-			c.AddConversation (new Conversation ("Kobe", 1, true, "You are the one who wants inventions! You will absolutely adore the microtransistor!", "The what?", 2));
-			c.AddConversation (new Conversation ("Kobe", 1, true, "Small electric switch; allows computers to work!", "That... makes a lot of sense!", -1, true));
+			c.AddConversation (new Conversation ("William the Conqueror", 1, true, "Ah! Thou must know something t'what's here about!", "Who are you?", 1));
+			c.AddConversation (new Conversation ("William the Conqueror", 1, true, "I am William, Duke of Normandy, conquestor of England!", "What year are you from?", 2));
+			c.AddConversation (new Conversation ("William the Conqueror", 1, true, "Truly understood. I was i'the middle o' the Battle at Hastings, fighting for England herself...", "When you woke up here?", 3));
+			c.AddConversation (new Conversation ("William the Conqueror", 1, true, "Yes, quite. And I suspect we are met in some sort of heavenly kingdom, departed from the fabric of Earth.", "You're in the future.", 4));
+			c.AddConversation (new Conversation ("William the Conqueror", 1, true, "And without an army! I must return immediately, and thy'll help me or perish at the hand o' the Norman divines.", "I need to find some important invention.", 5));
+			c.AddConversation (new Conversation ("William the Conqueror", 1, true, "Well, if you can help me return to my conquest, I noticed some shining metal over there.", "The microtransistor! Of course!", -1, true));
 	
-			//3
-			c.AddConversation (new Conversation ("Kobe", 1, true, "I think you will like the microtransistor.", "I think this may be it.", -1));
+			//6
+			c.AddConversation (new Conversation ("William the Conqueror", 1, true, "A volley of arrows strong enough t'block out t'sun!", "I'm going to go check out the microtransistor.", -1));
 
-			myQuest = new Quest(7, "This Ko-be The One", "See if the Microtransistor invented the future", 3, new int[]{0, 3, 3}, new string[]{
-				"Talk to Kobe",
+			myQuest = new Quest(7, "This Ko-be The One", "See if the Microtransistor invented the future", 3, new int[]{0, 6, 6}, new string[]{
+				"Talk to William",
 				"See if the Microtransistor invented the future",
 				"QUEST COMPLETE"
 			});
