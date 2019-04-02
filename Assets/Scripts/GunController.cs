@@ -11,7 +11,7 @@ public class GunController : MonoBehaviour {
 	private AudioSource myAudioSource;
 
 	private bool inventoryEnabled = true; //Used to turn off inventory in tutorial until needed
-	private float range = 7.5f; //Range in Unity units at which I can succ
+	private float range = 10f; //Range in Unity units at which I can succ
 	private float absorbTime; //Raw time at which current absorbtion action began, used for opacity
 	private float prevScroll; //Previous frame mousewheel scroll
 	private int coroutineCounter; //Hack to stop coroutine with args
@@ -205,6 +205,9 @@ public class GunController : MonoBehaviour {
 			if (currentTarget.name == "Gong") {
 				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest (1);
 			}
+			if (currentTarget.name == "Toilet" && !currentTarget.GetComponent<TimeObject>().isInactive) {
+				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest (3);
+			}
 			if (currentTarget.name == "LunarLander") {
 				GameObject.Find ("Controller").GetComponent<QuestTracker> ().AdvanceQuest(5);
 				GameObject.Find ("Controller").GetComponent<cs3_controller> ().PlayDanny (1);
@@ -234,6 +237,9 @@ public class GunController : MonoBehaviour {
 			Debug.Log("Doing absorb enemy");
 			myHighlighter.AbsorbChangedObject ();
 			absorbTime = -1f;
+			myAudioSource.clip = succComplete;
+			myAudioSource.volume = 1.0f;
+			myAudioSource.Play ();
 			currentTarget.SetActive (false);
 			currentTarget = null;
 		}

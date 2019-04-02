@@ -44,6 +44,7 @@ public class cs2_controller : MonoBehaviour {
 		//Manage Quest Items
 		GameObject.Find ("Gong").GetComponent<TimeObject> ().isInactive = true;
 		GameObject.Find ("Pebbles").GetComponent<TimeObject> ().isInactive = true;
+		GameObject.Find ("Toilet").GetComponent<TimeObject> ().isInactive = true;
 
 		StartCoroutine(StartGame (2.30f));
 	}

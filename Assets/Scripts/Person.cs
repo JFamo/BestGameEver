@@ -161,26 +161,25 @@ public class Person : MonoBehaviour {
 			questTracker.AddQuest (myQuest);
 			c.SetQuest (myQuest);
 		} else if (myID == 3) {
-			c.AddConversation (new Conversation ("Zeus", 2, true, "Alright, stop.", "Are you... Zeus?", "Stop what?", 1, 2));
-			c.AddConversation (new Conversation ("Zeus", 1, true, "That is what the conversation UI says.", "What are you doing?", "Cool.", 2, 0));
-			c.AddConversation (new Conversation ("Bastillus", 1, true, "I was working on some of my latest weapons, but then... something happened. They all just scattered!", "That may have been my advisor's fault.", 4));
-			c.AddConversation (new Conversation ("Bastillus", 2, true, "My anvil fell over earlier this morning, waking me up. It appears Tromázo has yet to wake the rest of the town.", "What are you doing?", "Makes Sense.", 2, 0));
-			c.AddConversation (new Conversation ("Bastillus", 2, true, "I do not know what that means, but if this is your fault, I need my weapons back. They are the proudest creations of Greece!", "What exactly did you lose?", "No Way!", 5, -1));
-			c.AddConversation (new Conversation ("Bastillus", 1, true, "My bronze shield, my helmet, my xiphos shortsword, and my ballista! All gone!", "I will find your weapons for you.", -1, true));
+			c.AddConversation (new Conversation ("Jakim", 2, true, "What?! Who are you?", "Who are you?", "You're not from around here, are you?", 1, 2));
+			c.AddConversation (new Conversation ("Jakim", 1, true, "I'm Jakim Edward Jamiston, 120 North Monroe Street, Hanover New Hampshire.", "You're not from around here, are you?", 2));
+			c.AddConversation (new Conversation ("Jakim", 1, true, "I just... I don't know what happened! I was reading Vogue at my local cafe - Le chien du dejuner - and suddenly I woke up here!", "[Lie] I wouldn't know anything about that.", 3));
+			c.AddConversation (new Conversation ("Jakim", 2, true, "This place is disgusting! I don't see a single restroom! And they definitely don't use paper straws!", "You're right.", "Uh yeah, goodbye.", 4, -1));
+			c.AddConversation (new Conversation ("Jakim", 1, true, "Maybe you can help me out. I need a washroom A-S-A-P and I'm DEFINITELY not going until I have one.", "I'll help you out.", -1, true));
+
+			//5
+			c.AddConversation (new Conversation ("Jakim", 2, true, "Hurry up! I can't wait much longer!", "I'm still working on it.", "I'm busy.", -1, -1));
 
 			//6
-			c.AddConversation (new Conversation ("Bastillus", 1, true, "Have you found my bronze shield, my helmet, my xiphos shortsword, and my ballist yet?", "I'm still working on it.", -1));
+			c.AddConversation (new Conversation ("Jakim", 1, true, "Oh goodness golly thank you! Now I just need to find an Uber to get home...", "No problem!", -1, true));
 
 			//7
-			c.AddConversation (new Conversation ("Bastillus", 1, true, "You got them! Thank you so much! The might of Greece will forever be on your side!", "No problem!", -1, true));
+			c.AddConversation (new Conversation ("Jakim", 1, true, "They don't event have Lyft here?!", "...", -1));
 
-			//8
-			c.AddConversation (new Conversation ("Bastillus", 1, true, "Thanks again for your help.", "Of course.", -1));
-
-			myQuest = new Quest (2, "Weaponsmith Woes", "Return Bastillus's inventions in weaponry", 4, new int[]{ 0, 6, 7, 8 }, new string[]{
-				"Talk to x",
-				"Collect x",
-				"Return x",
+			myQuest = new Quest (3, "Pipe Dream", "Invent indoor plumbing", 4, new int[]{ 0, 5, 6, 7 }, new string[]{
+				"Talk to Jakim",
+				"Invent indoor plumbing",
+				"Return to Jakim",
 				"Quest Complete"
 			});
 			questTracker.AddQuest (myQuest);

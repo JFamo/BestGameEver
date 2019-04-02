@@ -34,6 +34,12 @@ public class QuestTracker : MonoBehaviour {
 						GameObject.Find ("Pebbles").GetComponent<TimeObject> ().isInactive = false;
 					}
 				}
+				//Enable Toilet
+				if (id == 3) {
+					if(quests [i].getProgress () == 1){
+						GameObject.Find ("Toilet").GetComponent<TimeObject> ().isInactive = false;
+					}
+				}
 			}
 		}
 	}
